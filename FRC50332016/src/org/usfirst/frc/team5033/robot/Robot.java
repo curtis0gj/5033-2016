@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
  * @author Curtis Johnston
  * @version 1
  * 
- * @description Team 5033's 2016 FIRST STRONGHOLD Code.
+ * @description Team 5033's Armatec Beavertronics code for the 2016 game
+ *              STRONGHOLD.
  * 
  */
 
