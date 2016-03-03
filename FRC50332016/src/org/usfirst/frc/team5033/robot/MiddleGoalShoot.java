@@ -1,8 +1,8 @@
 package org.usfirst.frc.team5033.robot;
 
-public class CenterDefenseShoot extends AutoMethods {
+public class MiddleGoalShoot extends AutoMethods {
 
-	public CenterDefenseShoot(Components c) {
+	public MiddleGoalShoot(Components c) {
 		super(c);
 	}
 

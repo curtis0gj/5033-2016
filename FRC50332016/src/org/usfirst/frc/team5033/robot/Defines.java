@@ -51,8 +51,10 @@ public class Defines {
 
 	public enum AutonomousRoutines {
 		DO_NOTHING,
-		LOW_BAR_SHOOT,
-		CENTER_DEFENSE_SHOOT,
-		TOP_DEFENSE_SHOOT
+		LOW_BAR_BOTTOM_GOAL_SHOOT,
+		CENTER_GOAL_SHOOT,
+		EXTRA_AUTO_1,
+		EXTRA_AUTO_2,
+		EXTRA_AUTO_3
 	}
 }

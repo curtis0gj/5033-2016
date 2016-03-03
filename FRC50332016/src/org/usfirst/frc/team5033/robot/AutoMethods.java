@@ -36,6 +36,19 @@ public abstract class AutoMethods {
 		}
 	}
 
+	private void targetLost() {
+		while (c.isAuto()) {
+			double azimuth = SmartDashboard.getNumber("azimuth");
+
+			if (azimuth == -1) {
+				c.leftDrive.set(0.3);
+				c.rightDrive.set(0.3);
+			} else {
+				break;
+			}
+		}
+	}
+
 	/**
 	 * @description Method and functions for turning a certain angle with the
 	 *              gyroscope. - 90 for for a desiredAngle is left and + 90 for
