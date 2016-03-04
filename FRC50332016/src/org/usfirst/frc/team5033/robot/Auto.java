@@ -20,7 +20,7 @@ public class Auto {
 	public void run(AutonomousRoutines routines, Components c) {
 		switch (routines) {
 		case DO_NOTHING:
-			auto = new DoNothing(c);
+			auto = new DoNothingAuto(c);
 			break;
 
 		case LOW_BAR_BOTTOM_GOAL_SHOOT:

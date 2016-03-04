@@ -1,8 +1,8 @@
 package org.usfirst.frc.team5033.robot;
 
-public class DoNothing extends AutoMethods {
+public class DoNothingAuto extends AutoMethods {
 
-	public DoNothing(Components c) {
+	public DoNothingAuto(Components c) {
 		super(c);
 	}
 
