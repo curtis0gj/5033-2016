@@ -36,7 +36,7 @@ public class Defines {
 	public static final double MINIMUM_Y_AXIS = -0.5;
 	public static final double MAXIMUM_Y_AXIS = 0.5;
 
-	public static final double SHOOTER_RANGE = 200;
+	public static final double SHOOTER_RANGE = 40;
 	public static final double LEFT_SHOOT_SPEED = -1.00;
 	public static final double RIGHT_SHOOT_SPEED = 1.00;
 	public static final double LEFT_IMPELL_SPEED = 0.50;
