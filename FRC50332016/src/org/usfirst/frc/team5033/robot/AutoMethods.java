@@ -168,7 +168,18 @@ public abstract class AutoMethods {
 
 	public void visionDriving() {
 		while (c.isAuto()) {
-			double visionDistance = SmartDashboard.getNumber("distance");
+			String visionData = SmartDashboard.getString("distance and azimuth");
+
+			String[] distanceAndAzimuth = visionData.split(":", 2);
+
+			if (distanceAndAzimuth.length == 0) {
+				System.out.println("empty array");
+				// What else should I do here?
+			}
+
+			double visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
+			double azimuth = Double.parseDouble(distanceAndAzimuth[1]);
+
 			double delta = (Math.abs(visionDistance - Defines.SHOOTER_RANGE));
 			double alpha = (visionDistance - Defines.SHOOTER_RANGE);
 

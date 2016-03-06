@@ -40,6 +40,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
+		try {
+
+		} catch (Exception e) {
+			// What else should I do now?
+		}
 	}
 
 	public void teleopInit() {
