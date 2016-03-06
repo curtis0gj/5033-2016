@@ -36,15 +36,15 @@ public class Robot extends IterativeRobot {
 		c.leftDriveEncoder.reset();
 		c.time.start();
 		routines = (Defines.AutonomousRoutines) c.chooser.getSelected();
-		auto.run(routines, c);
+
+		try {
+			auto.run(routines, c);
+		} catch (Exception e) {
+		}
 	}
 
 	public void autonomousPeriodic() {
-		try {
 
-		} catch (Exception e) {
-			// What else should I do now?
-		}
 	}
 
 	public void teleopInit() {
@@ -52,28 +52,32 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopPeriodic() {
-		while (isOperatorControl() && isEnabled()) {
-			double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
-			double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
-			c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
+		try {
+			while (isOperatorControl() && isEnabled()) {
+				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
+				double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
+				c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
 
-			if (shooterAxis < Defines.MINIMUM_Y_AXIS) {
-				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
-				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
-			} else if (shooterAxis > Defines.MAXIMUM_Y_AXIS) {
-				c.leftShooterMotor.set(Defines.LEFT_IMPELL_SPEED);
-				c.rightShooterMotor.set(Defines.RIGHT_IMPELL_SPEED);
-			} else {
-				c.leftShooterMotor.set(Defines.SHOOTER_OFF);
-				c.rightShooterMotor.set(Defines.SHOOTER_OFF);
+				if (shooterAxis < Defines.MINIMUM_Y_AXIS) {
+					c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
+					c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
+				} else if (shooterAxis > Defines.MAXIMUM_Y_AXIS) {
+					c.leftShooterMotor.set(Defines.LEFT_IMPELL_SPEED);
+					c.rightShooterMotor.set(Defines.RIGHT_IMPELL_SPEED);
+				} else {
+					c.leftShooterMotor.set(Defines.SHOOTER_OFF);
+					c.rightShooterMotor.set(Defines.SHOOTER_OFF);
+				}
+				if (shooterAngleAxis < Defines.MINIMUM_Y_AXIS) {
+					c.shooterAngleMotor.set(Relay.Value.kForward);
+				} else if (shooterAngleAxis > Defines.MAXIMUM_Y_AXIS) {
+					c.shooterAngleMotor.set(Relay.Value.kReverse);
+				} else {
+					c.shooterAngleMotor.set(Relay.Value.kOff);
+				}
 			}
-			if (shooterAngleAxis < Defines.MINIMUM_Y_AXIS) {
-				c.shooterAngleMotor.set(Relay.Value.kForward);
-			} else if (shooterAngleAxis > Defines.MAXIMUM_Y_AXIS) {
-				c.shooterAngleMotor.set(Relay.Value.kReverse);
-			} else {
-				c.shooterAngleMotor.set(Relay.Value.kOff);
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

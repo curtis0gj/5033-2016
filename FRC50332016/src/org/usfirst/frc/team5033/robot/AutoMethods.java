@@ -172,9 +172,13 @@ public abstract class AutoMethods {
 
 			String[] distanceAndAzimuth = visionData.split(":", 2);
 
-			if (distanceAndAzimuth.length == 0) {
-				System.out.println("empty array");
-				// What else should I do here?
+			if (distanceAndAzimuth.length <= 1) {
+				while (c.isAuto()) {
+				}
+			}
+
+			if (visionData == "3.14:-1") {
+
 			}
 
 			double visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
