@@ -10,21 +10,10 @@ public abstract class AutoMethods {
 		this.c = c;
 	}
 
-	/**
-	 * @description A clamp.
-	 * @param num
-	 * @param low
-	 * @param high
-	 * @return
-	 */
 	public double clamp(double num, double low, double high) {
 		return Math.max(low, Math.min(num, high));
 	}
 
-	/**
-	 * @description timeDelay method in case we need to delay.
-	 * @param desiredTime
-	 */
 	public void timeDelay(double desiredTime) {
 		double startingTime = c.time.get();
 		while (c.isAuto()) {
@@ -36,13 +25,6 @@ public abstract class AutoMethods {
 		}
 	}
 
-	/**
-	 * @description Method and functions for turning a certain angle with the
-	 *              gyroscope. - 90 for for a desiredAngle is left and + 90 for
-	 *              a desiredAngle is right.
-	 * @param currentAngle
-	 * @return
-	 */
 	public double calcSpeedForGyroscopeTurningLeftDrive(double currentAngle) {
 		return clamp(Math.tan(Math.toRadians(currentAngle)) / 1.40, -0.35, 0.35);
 	}
@@ -52,6 +34,7 @@ public abstract class AutoMethods {
 	}
 
 	public void gyroTurning(double desiredAngle) {
+		// - 90 for a desired angle is left and + 90 is right.
 		double startingAngle = c.gyro.getAngle();
 
 		while (c.isAuto()) {
@@ -69,14 +52,6 @@ public abstract class AutoMethods {
 		}
 	}
 
-	/**
-	 * @description Method and functions for driving straight for a certain
-	 *              distance with the gyroscope and encoder. Side note negative
-	 *              speed values for right drive and positive for left // will
-	 *              drive the robot forward.
-	 * @param desiredDistance
-	 * @return
-	 */
 	public double calcSpeedForGoingStraightLeftDrive(double currentAngle) {
 		return clamp(Math.tan(Math.toRadians(currentAngle)) / 2 + 0.3, -0.35, 0.35);
 	}
@@ -98,24 +73,21 @@ public abstract class AutoMethods {
 				c.rightDrive.set(0);
 				break;
 			} else {
+				// Positive for left drive and negative for right drive will
+				// make the robot go forward.
 				c.leftDrive.set(calcSpeedForGoingStraightLeftDrive(deltaAngle));
 				c.rightDrive.set(-calcSpeedForGoingStraightRightDrive(deltaAngle));
 			}
 		}
 	}
 
-	/**
-	 * @description This method drives at a constant speed and implements the
-	 *              encoder to drive for a certain distance. The purpose is to
-	 *              drive over obstacles. 160 for desiredDistance worked when
-	 *              the robot was 12 inches from the obstacle.
-	 * @param desiredDistance
-	 */
 	public void drivingOverObsticals(double desiredDistance) {
 		c.rightDriveEncoder.reset();
 		while (c.isAuto()) {
 			double currentDistance = c.rightDriveEncoder.getDistance();
 
+			// 160 for a desired distance worked once when the robot was 12
+			// inches from an obstacle.
 			if (currentDistance <= -desiredDistance) {
 				c.rightDrive.set(0);
 				c.leftDrive.set(0);
@@ -127,11 +99,6 @@ public abstract class AutoMethods {
 		}
 	}
 
-	/**
-	 * @description Method and functions for aiming using the azimuth.
-	 * @param azimuth
-	 * @return
-	 */
 	public double calcSpeedForVisionTurnLeftDrive(double azimuth) {
 		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.25, 0.25);
 	}
@@ -142,9 +109,18 @@ public abstract class AutoMethods {
 
 	public void visionAiming() {
 		while (c.isAuto()) {
-			double azimuth = SmartDashboard.getNumber("azimuth");
+			String visionData = SmartDashboard.getString("distance and azimuth");
 
-			if (azimuth >= 355 || azimuth <= 5) {
+			String[] distanceAndAzimuth = visionData.split(":", 2);
+
+			if (distanceAndAzimuth.length <= 1) {
+				while (c.isAuto()) {
+				}
+			}
+			double visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
+			double azimuth = Double.parseDouble(distanceAndAzimuth[1]);
+
+			if (azimuth >= Defines.MAX_AZIMUTH || azimuth <= Defines.MIN_AZIMUTH) {
 				c.leftDrive.set(0);
 				c.rightDrive.set(0);
 				break;
@@ -155,13 +131,6 @@ public abstract class AutoMethods {
 		}
 	}
 
-	/**
-	 * @description Method and functions for driving to the target using the
-	 *              vision tracking distance. The objective is to stop just
-	 *              before the target to shoot.
-	 * @param visionDistance
-	 * @return
-	 */
 	public double calcSpeedFromDistance(double visionDistance) {
 		return clamp((Math.atan(visionDistance / 3)) / 3, -0.4, 0.4);
 	}
@@ -198,21 +167,12 @@ public abstract class AutoMethods {
 		}
 	}
 
-	/**
-	 * @description Method for centering the robot using the gyroscope.
-	 * @param currentAngle
-	 * @return
-	 */
 	public void gyroCentering() {
 		while (c.isAuto()) {
 			gyroTurning(-c.gyro.getAngle());
 		}
 	}
 
-	/**
-	 * @description Method for changing the angle of the shooter.
-	 * @param desiredAngle
-	 */
 	public void angleShooter(double desiredAngle) {
 		while (c.isAuto()) {
 			c.shooterAngleMotor.set(Relay.Value.kForward);
@@ -220,10 +180,6 @@ public abstract class AutoMethods {
 		}
 	}
 
-	/**
-	 * @description Method for shooting for a certain time.
-	 * @param shootingTime
-	 */
 	public void shoot(double shootingTime) {
 		double startTime = c.time.get();
 		while (c.isAuto()) {

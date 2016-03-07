@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * @author Curtis Johnston
@@ -30,10 +31,8 @@ public class Robot extends IterativeRobot {
 		final double distancePerPulse = Math.PI * Defines.WHEEL_DIAMETER / Defines.PULSE_PER_REVOLUTION
 				/ Defines.ENCODER_GEAR_RATIO / Defines.GEAR_RATIO * Defines.FUDGE_FACTOR;
 		c.rightDriveEncoder.setDistancePerPulse(distancePerPulse);
-		c.leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		c.gyro.reset();
 		c.rightDriveEncoder.reset();
-		c.leftDriveEncoder.reset();
 		c.time.start();
 		routines = (Defines.AutonomousRoutines) c.chooser.getSelected();
 
@@ -56,6 +55,9 @@ public class Robot extends IterativeRobot {
 			while (isOperatorControl() && isEnabled()) {
 				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 				double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
+				double visionDistance = SmartDashboard.getNumber("distance");
+				double azimuth = SmartDashboard.getNumber("azimuth");
+
 				c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
 
 				if (shooterAxis < Defines.MINIMUM_Y_AXIS) {
@@ -74,6 +76,12 @@ public class Robot extends IterativeRobot {
 					c.shooterAngleMotor.set(Relay.Value.kReverse);
 				} else {
 					c.shooterAngleMotor.set(Relay.Value.kOff);
+				}
+				if (visionDistance == Defines.SHOOTER_RANGE && azimuth >= Defines.MAX_AZIMUTH
+						|| azimuth <= Defines.MIN_AZIMUTH) {
+					SmartDashboard.putBoolean("SHOOTER CHECK", true);
+				} else {
+					SmartDashboard.putBoolean("SHOOTER CHECK", false);
 				}
 			}
 		} catch (Exception e) {

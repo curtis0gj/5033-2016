@@ -28,8 +28,6 @@ public class Components {
 	TalonSRX rightShooterMotor = new TalonSRX(Defines.RIGHT_SHOOTER_CHANNEL);
 	Encoder rightDriveEncoder = new Encoder(Defines.RIGHT_DRIVE_ENCODER_CHANNEL_A,
 			Defines.RIGHT_DRIVE_ENCODER_CHANNEL_B, true, EncodingType.k4X);
-	Encoder leftDriveEncoder = new Encoder(Defines.LEFT_DRIVE_ENCODER_CHANNEL_A, Defines.LEFT_DRIVE_ENCODER_CHANNEL_B,
-			true, EncodingType.k4X);
 	Timer time = new Timer();
 
 	public Components(BooleanSupplier robotStateCheck) {
