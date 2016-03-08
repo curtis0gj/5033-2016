@@ -99,6 +99,12 @@ public abstract class AutoMethods {
 		}
 	}
 
+	public String[] visionArray() {
+		String visionData = SmartDashboard.getString("distance and azimuth");
+		String[] distanceAndAzimuth = visionData.split(":", 2);
+		return distanceAndAzimuth;
+	}
+
 	public double calcSpeedForVisionTurnLeftDrive(double azimuth) {
 		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.25, 0.25);
 	}
@@ -109,16 +115,17 @@ public abstract class AutoMethods {
 
 	public void visionAiming() {
 		while (c.isAuto()) {
-			String visionData = SmartDashboard.getString("distance and azimuth");
-
-			String[] distanceAndAzimuth = visionData.split(":", 2);
-
-			if (distanceAndAzimuth.length <= 1) {
+			if (visionArray().length <= 1) {
 				while (c.isAuto()) {
 				}
 			}
-			double visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
-			double azimuth = Double.parseDouble(distanceAndAzimuth[1]);
+
+			if (visionArray().toString() == "3.14:-1") {
+
+			}
+
+			double visionDistance = Double.parseDouble(visionArray()[0]);
+			double azimuth = Double.parseDouble(visionArray()[1]);
 
 			if (azimuth >= Defines.MAX_AZIMUTH || azimuth <= Defines.MIN_AZIMUTH) {
 				c.leftDrive.set(0);
@@ -137,21 +144,18 @@ public abstract class AutoMethods {
 
 	public void visionDriving() {
 		while (c.isAuto()) {
-			String visionData = SmartDashboard.getString("distance and azimuth");
 
-			String[] distanceAndAzimuth = visionData.split(":", 2);
-
-			if (distanceAndAzimuth.length <= 1) {
+			if (visionArray().length <= 1) {
 				while (c.isAuto()) {
 				}
 			}
 
-			if (visionData == "3.14:-1") {
+			if (visionArray().toString() == "3.14:-1") {
 
 			}
 
-			double visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
-			double azimuth = Double.parseDouble(distanceAndAzimuth[1]);
+			double visionDistance = Double.parseDouble(visionArray()[0]);
+			double azimuth = Double.parseDouble(visionArray()[1]);
 
 			double delta = (Math.abs(visionDistance - Defines.SHOOTER_RANGE));
 			double alpha = (visionDistance - Defines.SHOOTER_RANGE);
