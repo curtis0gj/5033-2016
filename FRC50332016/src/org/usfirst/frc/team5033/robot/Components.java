@@ -35,6 +35,10 @@ public class Components {
 	}
 
 	public boolean isAuto() {
+		if (!isAutoCheck.getAsBoolean()) {
+			throw new RuntimeException("isAuto is false");
+		} 
+
 		return isAutoCheck.getAsBoolean();
 	}
 }

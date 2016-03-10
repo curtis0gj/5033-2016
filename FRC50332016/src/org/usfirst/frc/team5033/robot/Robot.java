@@ -21,6 +21,11 @@ public class Robot extends IterativeRobot {
 	Auto auto = new Auto();
 	Defines.AutonomousRoutines routines;
 
+	// void Disabled() {
+		// while (isDisabled()) {
+		// }
+	// }
+
 	public void robotInit() {
 		c.table = NetworkTable.getTable("SmartDashboard");
 

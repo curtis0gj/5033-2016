@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class AutoMethods {
 	Components c;
+	VisionData vd;
 
 	public AutoMethods(Components c) {
 		this.c = c;
@@ -100,11 +101,16 @@ public abstract class AutoMethods {
 	}
 
 	public String[] visionArray() {
-		String visionData = SmartDashboard.getString("distance and azimuth");
-		String[] distanceAndAzimuth = visionData.split(":", 2);
+		String smartDashBoardVisionData = SmartDashboard.getString("distance and azimuth");
+		String[] distanceAndAzimuth = smartDashBoardVisionData.split(":", 2);
+
+		double visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
+		double azimuth = Double.parseDouble(distanceAndAzimuth[1]);
+		
 		return distanceAndAzimuth;
 	}
 
+	
 	public double calcSpeedForVisionTurnLeftDrive(double azimuth) {
 		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.25, 0.25);
 	}
