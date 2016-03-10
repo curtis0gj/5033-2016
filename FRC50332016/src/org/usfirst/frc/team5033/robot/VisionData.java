@@ -3,24 +3,16 @@ package org.usfirst.frc.team5033.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionData {
+	public String smartDashBoardVisionData;
+	public String[] distanceAndAzimuth;
+	public double visionDistance;
+	public double azimuth;
 
 	public VisionData() {
+		smartDashBoardVisionData = SmartDashboard.getString("distance and azimuth");
+		distanceAndAzimuth = smartDashBoardVisionData.split(":", 2);
 
-	}
-
-	public String[] visionArray() {
-		String smartDashBoardVisionData = SmartDashboard.getString("distance and azimuth");
-		String[] distanceAndAzimuth = smartDashBoardVisionData.split(":", 2);
-		return distanceAndAzimuth;
-	}
-
-	public double visionDistance() {
-		double visionDistance = Double.parseDouble(visionArray()[0]);
-		return visionDistance;
-	}
-
-	public double azimuth() {
-		double azimuth = Double.parseDouble(visionArray()[1]);
-		return azimuth;
+		visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
+		azimuth = Double.parseDouble(distanceAndAzimuth[1]);
 	}
 }

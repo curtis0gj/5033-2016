@@ -9,6 +9,7 @@ public abstract class AutoMethods {
 
 	public AutoMethods(Components c) {
 		this.c = c;
+		vd = new VisionData();
 	}
 
 	public double clamp(double num, double low, double high) {
@@ -100,71 +101,53 @@ public abstract class AutoMethods {
 		}
 	}
 
-	public String[] visionArray() {
-		String smartDashBoardVisionData = SmartDashboard.getString("distance and azimuth");
-		String[] distanceAndAzimuth = smartDashBoardVisionData.split(":", 2);
-
-		double visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
-		double azimuth = Double.parseDouble(distanceAndAzimuth[1]);
-		
-		return distanceAndAzimuth;
-	}
-
-	
 	public double calcSpeedForVisionTurnLeftDrive(double azimuth) {
-		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.25, 0.25);
+		return clamp(Math.tan(Math.toRadians(vd.azimuth)) / 1, -0.25, 0.25);
 	}
 
 	public double calcSpeedForVisionTurnRightDrive(double azimuth) {
-		return calcSpeedForVisionTurnLeftDrive(-azimuth);
+		return calcSpeedForVisionTurnLeftDrive(-vd.azimuth);
 	}
 
 	public void visionAiming() {
 		while (c.isAuto()) {
-			if (visionArray().length <= 1) {
+			if (vd.distanceAndAzimuth.length <= 1) {
 				while (c.isAuto()) {
 				}
 			}
 
-			if (visionArray().toString() == "3.14:-1") {
+			if (vd.distanceAndAzimuth.toString() == "3.14:-1") {
 
 			}
 
-			double visionDistance = Double.parseDouble(visionArray()[0]);
-			double azimuth = Double.parseDouble(visionArray()[1]);
-
-			if (azimuth >= Defines.MAX_AZIMUTH || azimuth <= Defines.MIN_AZIMUTH) {
+			if (vd.azimuth >= Defines.MAX_AZIMUTH || vd.azimuth <= Defines.MIN_AZIMUTH) {
 				c.leftDrive.set(0);
 				c.rightDrive.set(0);
 				break;
 			} else {
-				c.leftDrive.set(calcSpeedForVisionTurnLeftDrive(azimuth));
-				c.rightDrive.set(-calcSpeedForVisionTurnRightDrive(azimuth));
+				c.leftDrive.set(calcSpeedForVisionTurnLeftDrive(vd.azimuth));
+				c.rightDrive.set(-calcSpeedForVisionTurnRightDrive(vd.azimuth));
 			}
 		}
 	}
 
 	public double calcSpeedFromDistance(double visionDistance) {
-		return clamp((Math.atan(visionDistance / 3)) / 3, -0.4, 0.4);
+		return clamp((Math.atan(vd.visionDistance / 3)) / 3, -0.4, 0.4);
 	}
 
 	public void visionDriving() {
 		while (c.isAuto()) {
+			double delta = (Math.abs(vd.visionDistance - Defines.SHOOTER_RANGE));
+			double alpha = (vd.visionDistance - Defines.SHOOTER_RANGE);
 
-			if (visionArray().length <= 1) {
+			if (vd.distanceAndAzimuth.length <= 1) {
 				while (c.isAuto()) {
 				}
 			}
 
-			if (visionArray().toString() == "3.14:-1") {
+			if (vd.distanceAndAzimuth.toString() == "3.14:-1") {
 
 			}
-
-			double visionDistance = Double.parseDouble(visionArray()[0]);
-			double azimuth = Double.parseDouble(visionArray()[1]);
-
-			double delta = (Math.abs(visionDistance - Defines.SHOOTER_RANGE));
-			double alpha = (visionDistance - Defines.SHOOTER_RANGE);
 
 			if (Math.abs(delta) < 4) {
 				c.leftDrive.set(0);
