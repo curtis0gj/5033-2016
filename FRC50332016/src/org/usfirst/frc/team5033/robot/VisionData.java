@@ -7,6 +7,8 @@ public class VisionData {
 	public String[] distanceAndAzimuth;
 	public double visionDistance;
 	public double azimuth;
+	public boolean lost;
+	Components c;
 
 	public VisionData() {
 		smartDashBoardVisionData = SmartDashboard.getString("distance and azimuth");
@@ -14,13 +16,22 @@ public class VisionData {
 
 		visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
 		azimuth = Double.parseDouble(distanceAndAzimuth[1]);
+	}
 
-		if (distanceAndAzimuth.length <= 1) {
-
-		}
-		
+	public void targetLost() {
 		if (distanceAndAzimuth.toString() == "3.14:-1") {
-			
+			lost = true;
+			while (lost) {
+
+			}
+		} else
+			lost = false;
+	}
+
+	public void isVisionTrackingRunning() {
+		if (distanceAndAzimuth.length <= 1) {
+			while (!c.isAuto()) {
+			}
 		}
 	}
 

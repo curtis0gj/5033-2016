@@ -99,6 +99,14 @@ public abstract class AutoMethods {
 		}
 	}
 
+	public void visionTrackingCheck() {
+		VisionData vd = new VisionData();
+		if (vd.distanceAndAzimuth.length <= 1) {
+			while (c.isAuto()) {
+			}
+		}
+	}
+
 	public double calcSpeedForVisionTurnLeftDrive(double azimuth) {
 		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.25, 0.25);
 	}
@@ -110,6 +118,9 @@ public abstract class AutoMethods {
 	public void visionAiming() {
 		while (c.isAuto()) {
 			VisionData vd = new VisionData();
+
+			vd.targetLost();
+			visionTrackingCheck();
 
 			if (vd.azimuth >= Defines.MAX_AZIMUTH || vd.azimuth <= Defines.MIN_AZIMUTH) {
 				c.leftDrive.set(0);
@@ -132,13 +143,12 @@ public abstract class AutoMethods {
 			double delta = (Math.abs(vd.visionDistance - Defines.SHOOTER_RANGE));
 			double alpha = (vd.visionDistance - Defines.SHOOTER_RANGE);
 
+			vd.targetLost();
+			visionTrackingCheck();
+
 			if (vd.distanceAndAzimuth.length <= 1) {
 				while (c.isAuto()) {
 				}
-			}
-
-			if (vd.distanceAndAzimuth.toString() == "3.14:-1") {
-
 			}
 
 			if (Math.abs(delta) < 4) {
