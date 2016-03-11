@@ -5,11 +5,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class AutoMethods {
 	Components c;
-	VisionData vd;
 
 	public AutoMethods(Components c) {
 		this.c = c;
-		vd = new VisionData();
 	}
 
 	public double clamp(double num, double low, double high) {
@@ -102,23 +100,16 @@ public abstract class AutoMethods {
 	}
 
 	public double calcSpeedForVisionTurnLeftDrive(double azimuth) {
-		return clamp(Math.tan(Math.toRadians(vd.azimuth)) / 1, -0.25, 0.25);
+		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.25, 0.25);
 	}
 
 	public double calcSpeedForVisionTurnRightDrive(double azimuth) {
-		return calcSpeedForVisionTurnLeftDrive(-vd.azimuth);
+		return calcSpeedForVisionTurnLeftDrive(-azimuth);
 	}
 
 	public void visionAiming() {
 		while (c.isAuto()) {
-			if (vd.distanceAndAzimuth.length <= 1) {
-				while (c.isAuto()) {
-				}
-			}
-
-			if (vd.distanceAndAzimuth.toString() == "3.14:-1") {
-
-			}
+			VisionData vd = new VisionData();
 
 			if (vd.azimuth >= Defines.MAX_AZIMUTH || vd.azimuth <= Defines.MIN_AZIMUTH) {
 				c.leftDrive.set(0);
@@ -132,11 +123,12 @@ public abstract class AutoMethods {
 	}
 
 	public double calcSpeedFromDistance(double visionDistance) {
-		return clamp((Math.atan(vd.visionDistance / 3)) / 3, -0.4, 0.4);
+		return clamp((Math.atan(visionDistance / 3)) / 3, -0.4, 0.4);
 	}
 
 	public void visionDriving() {
 		while (c.isAuto()) {
+			VisionData vd = new VisionData();
 			double delta = (Math.abs(vd.visionDistance - Defines.SHOOTER_RANGE));
 			double alpha = (vd.visionDistance - Defines.SHOOTER_RANGE);
 

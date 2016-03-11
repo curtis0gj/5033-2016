@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	Components c = new Components(() -> isEnabled() && isAutonomous());
 
-	VisionData vd = new VisionData();
+	// VisionData vd = new VisionData();
 	Auto auto = new Auto();
 	Defines.AutonomousRoutines routines;
 
@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
 				} else {
 					c.shooterAngleMotor.set(Relay.Value.kOff);
 				}
-				if (vd.visionDistance == Defines.SHOOTER_RANGE) {
+				/*if (vd.visionDistance == Defines.SHOOTER_RANGE) {
 					SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", true);
 				} else {
 					SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", false);
@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
 					SmartDashboard.putBoolean("SHOOTER AZIMUTH CHECK", true);
 				} else {
 					SmartDashboard.putBoolean("SHOOTER AZIMUTH CHECK", false);
-				}
+				}*/
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

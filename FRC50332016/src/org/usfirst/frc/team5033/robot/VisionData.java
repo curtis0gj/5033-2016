@@ -14,5 +14,14 @@ public class VisionData {
 
 		visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
 		azimuth = Double.parseDouble(distanceAndAzimuth[1]);
+
+		if (distanceAndAzimuth.length <= 1) {
+
+		}
+		
+		if (distanceAndAzimuth.toString() == "3.14:-1") {
+			
+		}
 	}
+
 }
