@@ -22,17 +22,21 @@ public class VisionData {
 		if (distanceAndAzimuth.toString() == "3.14:-1") {
 			lost = true;
 			while (lost) {
-
+				if (distanceAndAzimuth.toString() != "3.14:-1") {
+					lost = false;
+					break;
+				}
 			}
-		} else
-			lost = false;
+		}
 	}
 
 	public void isVisionTrackingRunning() {
 		if (distanceAndAzimuth.length <= 1) {
 			while (!c.isAuto()) {
+				if (distanceAndAzimuth.length > 1) {
+					break;
+				}
 			}
 		}
 	}
-
 }

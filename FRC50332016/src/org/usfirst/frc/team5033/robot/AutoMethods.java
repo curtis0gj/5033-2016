@@ -103,6 +103,9 @@ public abstract class AutoMethods {
 		VisionData vd = new VisionData();
 		if (vd.distanceAndAzimuth.length <= 1) {
 			while (c.isAuto()) {
+				if (vd.distanceAndAzimuth.length > 1) {
+					break;
+				}
 			}
 		}
 	}
