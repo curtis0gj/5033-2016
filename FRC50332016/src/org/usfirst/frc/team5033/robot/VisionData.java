@@ -17,23 +17,35 @@ public class VisionData {
 		visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
 		azimuth = Double.parseDouble(distanceAndAzimuth[1]);
 	}
+	
+	public void updateVisionData() {
+		smartDashBoardVisionData = SmartDashboard.getString("distance and azimuth");
+		distanceAndAzimuth = smartDashBoardVisionData.split(":", 2);
+
+		visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
+		azimuth = Double.parseDouble(distanceAndAzimuth[1]);
+	}
 
 	public void targetLost() {
+		updateVisionData();
 		if (distanceAndAzimuth.toString() == "3.14:-1") {
-			lost = true;
-			while (lost) {
-				if (distanceAndAzimuth.toString() != "3.14:-1") {
-					lost = false;
-					break;
+			while (c.isAuto()) {
+				lost = true;
+				while (lost) {
+					if (distanceAndAzimuth.toString() != "3.14:-1") {
+						lost = false;
+						break;
+					}
 				}
+				return;
 			}
-			return;
 		}
 	}
 
 	public void isVisionTrackingRunning() {
+		updateVisionData();
 		if (distanceAndAzimuth.length <= 1) {
-			while (!c.isAuto()) {
+			while (c.isAuto()) {
 				if (distanceAndAzimuth.length > 1) {
 					break;
 				}
