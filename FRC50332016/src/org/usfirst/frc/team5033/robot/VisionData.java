@@ -1,7 +1,5 @@
 package org.usfirst.frc.team5033.robot;
 
-import java.io.IOException;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionData {
@@ -9,7 +7,6 @@ public class VisionData {
 	public String[] distanceAndAzimuth;
 	public double visionDistance;
 	public double azimuth;
-	public boolean lost;
 	Components c;
 
 	public VisionData() {
@@ -32,14 +29,9 @@ public class VisionData {
 		if (distanceAndAzimuth.toString() == "3.14:-1") {
 			while (c.isAuto()) {
 				updateVisionData();
-				lost = true;
-				while (lost) {
-					if (distanceAndAzimuth.toString() != "3.14:-1") {
-						lost = false;
-						break;
-					}
+				if (distanceAndAzimuth.toString() != "3.14:-1") {
+					break;
 				}
-				return;
 			}
 		}
 	}
@@ -54,5 +46,9 @@ public class VisionData {
 			}
 			return;
 		}
+	}
+
+	public boolean isUsable() {
+		return distanceAndAzimuth.length > 1 && distanceAndAzimuth.toString() != "3.14: -1";
 	}
 }

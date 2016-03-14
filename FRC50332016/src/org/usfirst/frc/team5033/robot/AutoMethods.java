@@ -1,7 +1,6 @@
 package org.usfirst.frc.team5033.robot;
 
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class AutoMethods {
 	Components c;
