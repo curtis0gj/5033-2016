@@ -78,7 +78,7 @@ public class Robot extends IterativeRobot {
 				}
 
 				if (vd.isUsable()) {
-					if (vd.visionDistance == Defines.SHOOTER_RANGE) {
+					if (Math.abs(Defines.SHOOTER_RANGE - vd.visionDistance) <= 10) {
 						SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", true);
 					} else {
 						SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", false);
