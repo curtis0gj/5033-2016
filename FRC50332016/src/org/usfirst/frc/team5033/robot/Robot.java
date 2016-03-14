@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
 				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 				double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
 
-				vd.isVisionTrackingRunning();
+				vd.visionTrackingRunningCheck();
 
 				c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
 
