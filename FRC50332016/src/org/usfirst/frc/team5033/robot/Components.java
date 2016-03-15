@@ -29,9 +29,12 @@ public class Components {
 	Encoder rightDriveEncoder = new Encoder(Defines.RIGHT_DRIVE_ENCODER_CHANNEL_A,
 			Defines.RIGHT_DRIVE_ENCODER_CHANNEL_B, true, EncodingType.k4X);
 	Timer time = new Timer();
+	Auto auto = new Auto();
 
 	public Components(BooleanSupplier robotStateCheck) {
 		isAutoCheck = robotStateCheck;
+		table = NetworkTable.getTable("SmartDashboard");
+		auto.initializeSmartDashBoard(this);
 	}
 
 	public boolean isAuto() {

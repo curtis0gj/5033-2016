@@ -13,6 +13,7 @@ public class LowBarShootAuto extends AutoMethods {
 		gyroTurning(45);
 		visionAiming();
 		visionDriving();
+		visionAiming();
 		angleShooter(45);
 		shoot(3);
 	}

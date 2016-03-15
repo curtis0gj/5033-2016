@@ -30,6 +30,7 @@ public class Defines {
 	public static final double MAXIMUM_Y_AXIS = 0.5;
 
 	public static final double SHOOTER_RANGE = 40;
+	public static final double SHOOTER_TOLERANCE = 10;
 	public static final double MAX_AZIMUTH = 355;
 	public static final double MIN_AZIMUTH = 5;
 	public static final double LEFT_SHOOT_SPEED = -1.00;

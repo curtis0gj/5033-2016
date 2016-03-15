@@ -26,6 +26,7 @@ public class VisionData {
 	}
 
 	public void targetLost() {
+		// How do I do this with one if statement.
 		if (distanceAndAzimuth.toString() == "3.14:-1") {
 			while (c.isAuto()) {
 				updateVisionData();
@@ -37,6 +38,7 @@ public class VisionData {
 	}
 
 	public void visionTrackingRunningCheck() {
+		// How do I do this with one if statement.
 		if (distanceAndAzimuth.length <= 1) {
 			while (c.isAuto()) {
 				updateVisionData();
@@ -49,6 +51,6 @@ public class VisionData {
 	}
 
 	public boolean isUsable() {
-		return distanceAndAzimuth.length > 1 && distanceAndAzimuth.toString() != "3.14: -1";
+		return distanceAndAzimuth.length > 1 && distanceAndAzimuth.toString() != "3.14:-1";
 	}
 }

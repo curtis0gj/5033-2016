@@ -3,7 +3,6 @@ package org.usfirst.frc.team5033.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -17,13 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	Components c = new Components(() -> isEnabled() && isAutonomous());
-	Auto auto = new Auto();
 	Defines.AutonomousRoutines routines;
 
 	public void robotInit() {
-		c.table = NetworkTable.getTable("SmartDashboard");
 
-		auto.initializeSmartDashBoard(c);
 	}
 
 	public void autonomousInit() {
@@ -36,7 +32,7 @@ public class Robot extends IterativeRobot {
 		routines = (Defines.AutonomousRoutines) c.chooser.getSelected();
 
 		try {
-			auto.run(routines, c);
+			c.auto.run(routines, c);
 		} catch (Exception e) {
 		}
 	}
@@ -50,8 +46,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopPeriodic() {
-		try {
-			while (isOperatorControl() && isEnabled()) {
+		while (isOperatorControl() && isEnabled()) {
+			try {
 				VisionData vd = new VisionData();
 
 				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
@@ -78,7 +74,7 @@ public class Robot extends IterativeRobot {
 				}
 
 				if (vd.isUsable()) {
-					if (Math.abs(Defines.SHOOTER_RANGE - vd.visionDistance) <= 10) {
+					if (Math.abs(Defines.SHOOTER_RANGE - vd.visionDistance) <= Defines.SHOOTER_TOLERANCE) {
 						SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", true);
 					} else {
 						SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", false);
@@ -89,11 +85,12 @@ public class Robot extends IterativeRobot {
 						SmartDashboard.putBoolean("SHOOTER AZIMUTH CHECK", false);
 					}
 				} else {
-
+					SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", false);
+					SmartDashboard.putBoolean("SHOOTER AZIMUTH CHECK", false);
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 }

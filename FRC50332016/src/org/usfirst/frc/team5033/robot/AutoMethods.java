@@ -64,7 +64,7 @@ public abstract class AutoMethods {
 		c.rightDriveEncoder.reset();
 		while (c.isAuto()) {
 			double currentAngle = c.gyro.getAngle();
-			double deltaAngle = -(currentAngle - startingAngle);
+			double deltaAngle = -currentAngle + startingAngle;
 			double currentDistance = c.rightDriveEncoder.getDistance();
 
 			if (currentDistance <= -desiredDistance) {
@@ -109,9 +109,8 @@ public abstract class AutoMethods {
 	public void visionAiming() {
 		while (c.isAuto()) {
 			VisionData vd = new VisionData();
-
 			vd.visionTrackingRunningCheck();
-			vd.targetLost();
+			findTarget(vd);
 
 			if (vd.azimuth >= Defines.MAX_AZIMUTH || vd.azimuth <= Defines.MIN_AZIMUTH) {
 				c.leftDrive.set(0);
@@ -131,11 +130,11 @@ public abstract class AutoMethods {
 	public void visionDriving() {
 		while (c.isAuto()) {
 			VisionData vd = new VisionData();
+			vd.visionTrackingRunningCheck();
+			findTarget(vd);
+
 			double delta = (Math.abs(vd.visionDistance - Defines.SHOOTER_RANGE));
 			double alpha = (vd.visionDistance - Defines.SHOOTER_RANGE);
-
-			vd.visionTrackingRunningCheck();
-			vd.targetLost();
 
 			if (Math.abs(delta) < 4) {
 				c.leftDrive.set(0);
@@ -148,9 +147,23 @@ public abstract class AutoMethods {
 		}
 	}
 
+	private void findTarget(VisionData vd) {
+		while (c.isAuto()) {
+			vd.visionTrackingRunningCheck();
+			if (!vd.isUsable()) {
+				vd.updateVisionData();
+				c.leftDrive.set(0.3);
+				c.rightDrive.set(0.3);
+			} else {
+				break;
+			}
+		}
+	}
+
 	public void gyroCentering() {
 		while (c.isAuto()) {
 			gyroTurning(-c.gyro.getAngle());
+			break;
 		}
 	}
 
