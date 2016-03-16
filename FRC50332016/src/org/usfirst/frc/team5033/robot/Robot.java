@@ -52,8 +52,13 @@ public class Robot extends IterativeRobot {
 
 				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 				double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
+				boolean invertDriveDirectionButton = c.joystick.getRawButton(Defines.JOYSTICK_TRIGGER);
 
-				c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
+				if (!invertDriveDirectionButton) {
+					c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
+				} else if (invertDriveDirectionButton) {
+					c.tankDrive.arcadeDrive(c.joystick.getY(), -c.joystick.getX());
+				}
 
 				if (shooterAxis < Defines.MINIMUM_Y_AXIS) {
 					c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);

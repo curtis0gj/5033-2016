@@ -7,9 +7,9 @@ public class LowBarShootAuto extends AutoMethods {
 	}
 
 	public void run() {
-		driving(122);
+		driving(121.61);
 		gyroCentering();
-		driving(120);
+		driving(120.25);
 		gyroTurning(45);
 		visionAiming();
 		visionDriving();
