@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Relay;
 
 public abstract class AutoMethods {
 	Components c;
+	VisionData vd;
 
 	public AutoMethods(Components c) {
 		this.c = c;
@@ -111,7 +112,7 @@ public abstract class AutoMethods {
 	public void visionAiming() {
 		isVisionAiming = true;
 		while (c.isAuto()) {
-			VisionData vd = new VisionData();
+			vd.updateVisionData();
 			vd.visionTrackingRunningCheck();
 			findTarget(vd);
 
@@ -133,7 +134,7 @@ public abstract class AutoMethods {
 
 	public void visionDriving() {
 		while (c.isAuto()) {
-			VisionData vd = new VisionData();
+			vd.updateVisionData();
 			vd.visionTrackingRunningCheck();
 			findTarget(vd);
 
@@ -158,9 +159,8 @@ public abstract class AutoMethods {
 				vd.updateVisionData();
 				c.leftDrive.set(0.3);
 				c.rightDrive.set(0.3);
-				if (vd.isUsable() && !isVisionAiming) {
+				if (!isVisionAiming) {
 					visionAiming();
-				} else {
 					break;
 				}
 			} else {
