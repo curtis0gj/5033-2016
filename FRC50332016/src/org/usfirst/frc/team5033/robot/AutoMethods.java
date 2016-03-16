@@ -107,7 +107,7 @@ public abstract class AutoMethods {
 	}
 
 	public boolean isVisionAiming = false;
-	
+
 	public void visionAiming() {
 		isVisionAiming = true;
 		while (c.isAuto()) {
