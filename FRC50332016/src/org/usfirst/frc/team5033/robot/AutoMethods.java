@@ -8,6 +8,7 @@ public abstract class AutoMethods {
 
 	public AutoMethods(Components c) {
 		this.c = c;
+		vd = new VisionData();
 	}
 
 	public double clamp(double num, double low, double high) {
@@ -159,11 +160,11 @@ public abstract class AutoMethods {
 				vd.updateVisionData();
 				c.leftDrive.set(0.3);
 				c.rightDrive.set(0.3);
-				if (!isVisionAiming) {
-					visionAiming();
-					break;
-				}
+				
 			} else {
+				if(!isVisionAiming) {
+					visionAiming();
+				}
 				break;
 			}
 		}
