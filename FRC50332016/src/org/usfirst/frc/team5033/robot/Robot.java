@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		while (isOperatorControl() && isEnabled()) {
 			try {
-				VisionData vd = new VisionData();
+				VisionData vd = new VisionData(c);
 
 				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 				double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);

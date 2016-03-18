@@ -9,7 +9,7 @@ public class VisionData {
 	public double azimuth;
 	Components c;
 
-	public VisionData() {
+	public VisionData(Components c) {
 		updateVisionData();
 	}
 

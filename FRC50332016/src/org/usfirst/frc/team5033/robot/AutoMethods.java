@@ -8,7 +8,7 @@ public abstract class AutoMethods {
 
 	public AutoMethods(Components c) {
 		this.c = c;
-		vd = new VisionData();
+		vd = new VisionData(c);
 	}
 
 	public double clamp(double num, double low, double high) {
@@ -160,9 +160,9 @@ public abstract class AutoMethods {
 				vd.updateVisionData();
 				c.leftDrive.set(0.3);
 				c.rightDrive.set(0.3);
-				
+
 			} else {
-				if(!isVisionAiming) {
+				if (!isVisionAiming) {
 					visionAiming();
 				}
 				break;
@@ -178,6 +178,7 @@ public abstract class AutoMethods {
 	}
 
 	public void angleShooter(double desiredAngle) {
+		// Once the shooter is finished then I will do this.
 		while (c.isAuto()) {
 			c.shooterAngleMotor.set(Relay.Value.kForward);
 			break;
