@@ -10,6 +10,7 @@ public class VisionData {
 	Components c;
 
 	public VisionData(Components c) {
+		this.c = c;
 		updateVisionData();
 	}
 
@@ -21,7 +22,6 @@ public class VisionData {
 			visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
 			azimuth = Double.parseDouble(distanceAndAzimuth[1]);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -46,7 +46,6 @@ public class VisionData {
 					break;
 				}
 			}
-			return;
 		}
 	}
 
