@@ -61,8 +61,6 @@ public class Robot extends IterativeRobot {
 				boolean disableShooterAngling = c.xbox.getRawButton(Defines.XBOX_BACK_BUTTON);
 				boolean shooterUp = false;
 				boolean shooterDown = false;
-				double upShooterInterval = 5;
-				double downShooterInterval = -5;
 
 				SmartDashboard.putNumber("testing shooter angle", shooterAngle);
 				SmartDashboard.putNumber("testing robot angle", c.gyro.getAngle());
