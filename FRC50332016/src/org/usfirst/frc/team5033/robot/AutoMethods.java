@@ -180,23 +180,35 @@ public abstract class AutoMethods {
 	public void angleShooter(double desiredAngle) {
 		// Once the shooter is finished then I will do this.
 		while (c.isAuto()) {
+			double currentShooterAngle = c.shooterAngleEncoder.get();
+
 			c.shooterAngleMotor.set(Relay.Value.kForward);
-			break;
+
+			if (currentShooterAngle > desiredAngle) {
+				c.shooterAngleMotor.set(Relay.Value.kOff);
+				break;
+			}
 		}
 	}
 
-	public void shoot(double shootingTime) {
+	public void shoot() {
 		double startTime = c.time.get();
 		while (c.isAuto()) {
+			double warmUpShooterMotorPeriod = 2;
+			double pushingBallPeriod = 4;
+
 			double currentTime = c.time.get();
 			double deltaTime = currentTime - startTime;
 
-			if (deltaTime < shootingTime) {
+			if (deltaTime < warmUpShooterMotorPeriod) {
 				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
 				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
+			} else if (deltaTime > warmUpShooterMotorPeriod && deltaTime < pushingBallPeriod) {
+				c.shooterBallPusherMotor.set(Relay.Value.kForward);
 			} else {
 				c.leftShooterMotor.set(Defines.SHOOTER_OFF);
 				c.rightShooterMotor.set(Defines.SHOOTER_OFF);
+				c.shooterBallPusherMotor.set(Relay.Value.kOff);
 				break;
 			}
 		}

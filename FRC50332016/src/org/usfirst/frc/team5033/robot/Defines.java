@@ -26,6 +26,11 @@ public class Defines {
 
 	public static final int XBOX_LEFT_Y_AXIS = 1;
 	public static final int XBOX_RIGHT_Y_AXIS = 5;
+	public static final int XBOX_A_BUTTON = 1;
+	public static final int XBOX_Y_BUTTON = 4;
+	public static final int XBOX_D_PAD = 6;
+	public static final int XBOX_BACK_BUTTON = 7;
+
 	public static final double MINIMUM_Y_AXIS = -0.5;
 	public static final double MAXIMUM_Y_AXIS = 0.5;
 
@@ -35,10 +40,10 @@ public class Defines {
 	public static final double SHOOTER_TOLERANCE = 10;
 	public static final double MAX_AZIMUTH = 355;
 	public static final double MIN_AZIMUTH = 5;
-	public static final double LEFT_SHOOT_SPEED = -1.00;
-	public static final double RIGHT_SHOOT_SPEED = 1.00;
-	public static final double LEFT_IMPELL_SPEED = 0.50;
-	public static final double RIGHT_IMPELL_SPEED = -0.50;
+	public static final double LEFT_SHOOT_SPEED = 1.00;
+	public static final double RIGHT_SHOOT_SPEED = -1.00;
+	public static final double LEFT_IMPELL_SPEED = -0.50;
+	public static final double RIGHT_IMPELL_SPEED = 0.50;
 	public static final double SHOOTER_OFF = 0.00;
 
 	public static final double WHEEL_DIAMETER = 7.65;

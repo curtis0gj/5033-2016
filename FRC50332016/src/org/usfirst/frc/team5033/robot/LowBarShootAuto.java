@@ -15,6 +15,6 @@ public class LowBarShootAuto extends AutoMethods {
 		visionDriving();
 		visionAiming();
 		angleShooter(45);
-		shoot(3);
+		shoot();
 	}
 }

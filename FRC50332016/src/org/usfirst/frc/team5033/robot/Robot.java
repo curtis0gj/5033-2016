@@ -28,12 +28,14 @@ public class Robot extends IterativeRobot {
 		c.rightDriveEncoder.setDistancePerPulse(distancePerPulse);
 		c.gyro.reset();
 		c.rightDriveEncoder.reset();
+		c.shooterAngleEncoder.reset();
 		c.time.start();
 		routines = (Defines.AutonomousRoutines) c.chooser.getSelected();
 
 		try {
 			c.auto.run(routines, c);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -43,16 +45,23 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 		c.tankDrive = new RobotDrive(c.leftDrive, c.rightDrive);
+		c.shooterAngleEncoder.reset();
 	}
 
 	public void teleopPeriodic() {
 		while (isOperatorControl() && isEnabled()) {
 			try {
-				VisionData vd = new VisionData(c);
-
 				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 				double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
+				double obsticalManipulatorAxis = c.xbox.getRawAxis(Defines.XBOX_D_PAD);
+				boolean pushBallOutButton = c.xbox.getRawButton(Defines.XBOX_Y_BUTTON);
+				boolean reverseBallPusherMotorButton = c.xbox.getRawButton(Defines.XBOX_A_BUTTON);
 				boolean invertDriveDirectionButton = c.joystick.getRawButton(Defines.JOYSTICK_TRIGGER);
+				boolean disableShooterAngling = c.xbox.getRawButton(Defines.XBOX_BACK_BUTTON);
+				boolean shooterUp = false;
+				boolean shooterDown = false;
+
+				SmartDashboard.putNumber("shooter angle", c.shooterAngleEncoder.get());
 
 				if (!invertDriveDirectionButton) {
 					c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
@@ -70,13 +79,59 @@ public class Robot extends IterativeRobot {
 					c.leftShooterMotor.set(Defines.SHOOTER_OFF);
 					c.rightShooterMotor.set(Defines.SHOOTER_OFF);
 				}
+
+				// Shooter angle from centerline 54 - 55 degrees.
+				// Shooter angle 48 at 14ft and was in.
 				if (shooterAngleAxis < Defines.MINIMUM_Y_AXIS) {
-					c.shooterAngleMotor.set(Relay.Value.kForward);
+					shooterUp = true;
 				} else if (shooterAngleAxis > Defines.MAXIMUM_Y_AXIS) {
-					c.shooterAngleMotor.set(Relay.Value.kReverse);
+					shooterDown = true;
 				} else {
-					c.shooterAngleMotor.set(Relay.Value.kOff);
+
 				}
+
+				if (disableShooterAngling) {
+					shooterUp = false;
+					shooterDown = false;
+				}
+
+				if (shooterUp) {
+					if (c.shooterAngleEncoder.get() < 5) {
+						c.shooterAngleMotor.set(Relay.Value.kReverse);
+					} else {
+						c.shooterAngleMotor.set(Relay.Value.kOff);
+						c.shooterAngleEncoder.reset();
+						shooterUp = false;
+					}
+				}
+
+				if (shooterDown) {
+					if (c.shooterAngleEncoder.get() > -5) {
+						c.shooterAngleMotor.set(Relay.Value.kForward);
+					} else {
+						c.shooterAngleMotor.set(Relay.Value.kOff);
+						c.shooterAngleEncoder.reset();
+						shooterDown = false;
+					}
+				}
+
+				if (pushBallOutButton) {
+					c.shooterBallPusherMotor.set(Relay.Value.kForward);
+				} else if (reverseBallPusherMotorButton) {
+					c.shooterBallPusherMotor.set(Relay.Value.kReverse);
+				} else {
+					c.shooterBallPusherMotor.set(Relay.Value.kOff);
+				}
+
+				if (obsticalManipulatorAxis == 0) {
+					// Up.
+				} else if (obsticalManipulatorAxis == 180) {
+					// Down.
+				} else {
+					// Off.
+				}
+
+				VisionData vd = new VisionData(c);
 
 				if (vd.isUsable()) {
 					if (Math.abs(Defines.SHOOTER_RANGE - vd.visionDistance) <= Defines.SHOOTER_TOLERANCE) {
