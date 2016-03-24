@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
 				}
 
 				if (shooterUp) {
-					if (shooterAngle < upShooterInterval) {
+					if (shooterAngle < Defines.UP_SHOOTER_ANGLE_INTERVAL) {
 						c.shooterAngleMotor.set(Relay.Value.kReverse);
 					} else {
 						c.shooterAngleMotor.set(Relay.Value.kOff);
@@ -110,7 +110,7 @@ public class Robot extends IterativeRobot {
 				}
 
 				if (shooterDown) {
-					if (shooterAngle > downShooterInterval) {
+					if (shooterAngle > Defines.DOWN_SHOOTER_ANGLE_INTERVAL) {
 						c.shooterAngleMotor.set(Relay.Value.kForward);
 					} else {
 						c.shooterAngleMotor.set(Relay.Value.kOff);
