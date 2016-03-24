@@ -54,14 +54,18 @@ public class Robot extends IterativeRobot {
 				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 				double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
 				double obsticalManipulatorAxis = c.xbox.getRawAxis(Defines.XBOX_D_PAD);
+				double shooterAngle = c.shooterAngleEncoder.get();
 				boolean pushBallOutButton = c.xbox.getRawButton(Defines.XBOX_Y_BUTTON);
 				boolean reverseBallPusherMotorButton = c.xbox.getRawButton(Defines.XBOX_A_BUTTON);
 				boolean invertDriveDirectionButton = c.joystick.getRawButton(Defines.JOYSTICK_TRIGGER);
 				boolean disableShooterAngling = c.xbox.getRawButton(Defines.XBOX_BACK_BUTTON);
 				boolean shooterUp = false;
 				boolean shooterDown = false;
+				double upShooterInterval = 5;
+				double downShooterInterval = -5;
 
-				SmartDashboard.putNumber("shooter angle", c.shooterAngleEncoder.get());
+				SmartDashboard.putNumber("testing shooter angle", shooterAngle);
+				SmartDashboard.putNumber("testing robot angle", c.gyro.getAngle());
 
 				if (!invertDriveDirectionButton) {
 					c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
@@ -96,7 +100,7 @@ public class Robot extends IterativeRobot {
 				}
 
 				if (shooterUp) {
-					if (c.shooterAngleEncoder.get() < 5) {
+					if (shooterAngle < upShooterInterval) {
 						c.shooterAngleMotor.set(Relay.Value.kReverse);
 					} else {
 						c.shooterAngleMotor.set(Relay.Value.kOff);
@@ -106,7 +110,7 @@ public class Robot extends IterativeRobot {
 				}
 
 				if (shooterDown) {
-					if (c.shooterAngleEncoder.get() > -5) {
+					if (shooterAngle > downShooterInterval) {
 						c.shooterAngleMotor.set(Relay.Value.kForward);
 					} else {
 						c.shooterAngleMotor.set(Relay.Value.kOff);
