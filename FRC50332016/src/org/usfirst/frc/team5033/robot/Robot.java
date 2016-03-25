@@ -30,6 +30,7 @@ public class Robot extends IterativeRobot {
 		c.rightDriveEncoder.reset();
 		c.shooterAngleEncoder.reset();
 		c.time.start();
+
 		routines = (Defines.AutonomousRoutines) c.chooser.getSelected();
 
 		try {
@@ -49,18 +50,21 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopPeriodic() {
+		boolean shooterUp = false;
+		boolean shooterDown = false;
+
 		while (isOperatorControl() && isEnabled()) {
 			try {
 				double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 				double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
-				double obsticalManipulatorAxis = c.xbox.getRawAxis(Defines.XBOX_D_PAD);
 				double shooterAngle = c.shooterAngleEncoder.get();
+
+				boolean liftManipulatorButton = c.xbox.getRawButton(Defines.XBOX_X_BUTTON);
+				boolean lowerManipulatorButton = c.xbox.getRawButton(Defines.XBOX_B_BUTTON);
 				boolean pushBallOutButton = c.xbox.getRawButton(Defines.XBOX_Y_BUTTON);
 				boolean reverseBallPusherMotorButton = c.xbox.getRawButton(Defines.XBOX_A_BUTTON);
 				boolean invertDriveDirectionButton = c.joystick.getRawButton(Defines.JOYSTICK_TRIGGER);
 				boolean disableShooterAngling = c.xbox.getRawButton(Defines.XBOX_BACK_BUTTON);
-				boolean shooterUp = false;
-				boolean shooterDown = false;
 
 				SmartDashboard.putNumber("testing shooter angle", shooterAngle);
 				SmartDashboard.putNumber("testing robot angle", c.gyro.getAngle());
@@ -84,6 +88,7 @@ public class Robot extends IterativeRobot {
 
 				// Shooter angle from centerline 54 - 55 degrees.
 				// Shooter angle 48 at 14ft and was in.
+
 				if (shooterAngleAxis < Defines.MINIMUM_Y_AXIS) {
 					shooterUp = true;
 				} else if (shooterAngleAxis > Defines.MAXIMUM_Y_AXIS) {
@@ -95,6 +100,7 @@ public class Robot extends IterativeRobot {
 				if (disableShooterAngling) {
 					shooterUp = false;
 					shooterDown = false;
+					c.shooterAngleEncoder.reset();
 				}
 
 				if (shooterUp) {
@@ -125,9 +131,9 @@ public class Robot extends IterativeRobot {
 					c.shooterBallPusherMotor.set(Relay.Value.kOff);
 				}
 
-				if (obsticalManipulatorAxis == 0) {
+				if (liftManipulatorButton) {
 					// Up.
-				} else if (obsticalManipulatorAxis == 180) {
+				} else if (lowerManipulatorButton) {
 					// Down.
 				} else {
 					// Off.

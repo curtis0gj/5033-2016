@@ -204,6 +204,8 @@ public abstract class AutoMethods {
 				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
 				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
 			} else if (deltaTime > warmUpShooterMotorPeriod && deltaTime < pushingBallPeriod) {
+				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
+				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
 				c.shooterBallPusherMotor.set(Relay.Value.kForward);
 			} else {
 				c.leftShooterMotor.set(Defines.SHOOTER_OFF);

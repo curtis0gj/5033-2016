@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class VisionData {
 	public String smartDashBoardVisionData;
-	public String[] distanceAndAzimuth;
+	public String[] distanceAndAzimuth = new String[0];
 	public double visionDistance;
 	public double azimuth;
 	Components c;
@@ -15,10 +15,10 @@ public class VisionData {
 	}
 
 	public void updateVisionData() {
-		smartDashBoardVisionData = SmartDashboard.getString("distance and azimuth");
-		distanceAndAzimuth = smartDashBoardVisionData.split(":", 2);
-
 		try {
+			smartDashBoardVisionData = SmartDashboard.getString("distance and azimuth");
+			distanceAndAzimuth = smartDashBoardVisionData.split(":", 2);
+
 			visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
 			azimuth = Double.parseDouble(distanceAndAzimuth[1]);
 		} catch (Exception e) {
