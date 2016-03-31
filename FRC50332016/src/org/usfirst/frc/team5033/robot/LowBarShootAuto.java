@@ -6,7 +6,7 @@ public class LowBarShootAuto extends AutoMethods {
 		super(c);
 	}
 
-	public void run() {
+	public void run() throws AutoEndException {
 		driving(121.61);
 		gyroCentering();
 		driving(120.25);
@@ -14,7 +14,8 @@ public class LowBarShootAuto extends AutoMethods {
 		visionAiming();
 		visionDriving();
 		visionAiming();
-		angleShooter(45);
+		angleShooter();
+		timeDelay(1);
 		shoot();
 	}
 }

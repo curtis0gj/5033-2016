@@ -19,7 +19,6 @@ public class Robot extends IterativeRobot {
 	Defines.AutonomousRoutines routines;
 
 	public void robotInit() {
-
 	}
 
 	public void autonomousInit() {
@@ -31,10 +30,14 @@ public class Robot extends IterativeRobot {
 		c.shooterAngleEncoder.reset();
 		c.time.start();
 
+		c.resetAll();
+
 		routines = (Defines.AutonomousRoutines) c.chooser.getSelected();
 
 		try {
 			c.auto.run(routines, c);
+		} catch (AutoEndException se) {
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -45,6 +48,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
+		c.resetAll();
+
 		c.tankDrive = new RobotDrive(c.leftDrive, c.rightDrive);
 		c.shooterAngleEncoder.reset();
 	}
@@ -67,7 +72,6 @@ public class Robot extends IterativeRobot {
 				boolean disableShooterAngling = c.xbox.getRawButton(Defines.XBOX_BACK_BUTTON);
 
 				SmartDashboard.putNumber("testing shooter angle", shooterAngle);
-				SmartDashboard.putNumber("testing robot angle", c.gyro.getAngle());
 
 				if (!invertDriveDirectionButton) {
 					c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
@@ -93,8 +97,6 @@ public class Robot extends IterativeRobot {
 					shooterUp = true;
 				} else if (shooterAngleAxis > Defines.MAXIMUM_Y_AXIS) {
 					shooterDown = true;
-				} else {
-
 				}
 
 				if (disableShooterAngling) {
@@ -132,11 +134,11 @@ public class Robot extends IterativeRobot {
 				}
 
 				if (liftManipulatorButton) {
-					// Up.
+					c.obsticalLiftingMotor.set(Relay.Value.kForward);
 				} else if (lowerManipulatorButton) {
-					// Down.
+					c.obsticalLiftingMotor.set(Relay.Value.kReverse);
 				} else {
-					// Off.
+					c.obsticalLiftingMotor.set(Relay.Value.kOff);
 				}
 
 				VisionData vd = new VisionData(c);

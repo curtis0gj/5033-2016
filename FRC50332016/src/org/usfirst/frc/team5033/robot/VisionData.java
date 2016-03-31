@@ -22,10 +22,11 @@ public class VisionData {
 			visionDistance = Double.parseDouble(distanceAndAzimuth[0]);
 			azimuth = Double.parseDouble(distanceAndAzimuth[1]);
 		} catch (Exception e) {
+
 		}
 	}
 
-	public void targetLost() {
+	public void targetLost() throws AutoEndException {
 		// How do I do this with one if statement.
 		if (distanceAndAzimuth.toString() == "3.14:-1") {
 			while (c.isAuto()) {
@@ -37,7 +38,7 @@ public class VisionData {
 		}
 	}
 
-	public void visionTrackingRunningCheck() {
+	public void visionTrackingRunningCheck() throws AutoEndException {
 		// How do I do this with one if statement.
 		if (distanceAndAzimuth.length <= 1) {
 			while (c.isAuto()) {

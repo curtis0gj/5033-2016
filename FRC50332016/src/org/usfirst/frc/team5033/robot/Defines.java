@@ -12,6 +12,13 @@ public class Defines {
 	public static final int RIGHT_SHOOTER_CHANNEL = 8;
 	// Relay channel.
 	public static final int SHOOTER_ANGLE_MOTOR_CHANNEL = 0;
+	// Relay channel.
+	public static final int SHOOTER_BALL_PUSHER_MOTOR_CHANNEL = 3;
+	// Relay channel.
+	public static final int OBSTICAL_LIFTING_MOTOR_CHANNEL = 2;
+
+	public static final int SHOOTER_ANGLE_ENCODER_CHANNEL_A = 8;
+	public static final int SHOOTER_ANGLE_ENCODER_CHANNEL_B = 9;
 
 	public static final int JOYSTICK_CHANNEL = 0;
 	public static final int XBOX_CHANNEL = 1;
@@ -35,8 +42,8 @@ public class Defines {
 	public static final double MINIMUM_Y_AXIS = -0.5;
 	public static final double MAXIMUM_Y_AXIS = 0.5;
 
-	public static final double UP_SHOOTER_ANGLE_INTERVAL = 5;
-	public static final double DOWN_SHOOTER_ANGLE_INTERVAL = -5;
+	public static final double UP_SHOOTER_ANGLE_INTERVAL = 1;
+	public static final double DOWN_SHOOTER_ANGLE_INTERVAL = -1;
 
 	public static final int JOYSTICK_TRIGGER = 1;
 

@@ -24,12 +24,14 @@ public class Components {
 	Talon rightDrive = new Talon(Defines.RIGHT_DRIVE_CHANNEL);
 	AnalogGyro gyro = new AnalogGyro(Defines.ANALOG_GYROSCOPE_CHANNEL);
 	Relay shooterAngleMotor = new Relay(Defines.SHOOTER_ANGLE_MOTOR_CHANNEL);
-	Relay shooterBallPusherMotor = new Relay(3);
+	Relay shooterBallPusherMotor = new Relay(Defines.SHOOTER_BALL_PUSHER_MOTOR_CHANNEL);
+	Relay obsticalLiftingMotor = new Relay(Defines.OBSTICAL_LIFTING_MOTOR_CHANNEL);
 	TalonSRX leftShooterMotor = new TalonSRX(Defines.LEFT_SHOOTER_CHANNEL);
 	TalonSRX rightShooterMotor = new TalonSRX(Defines.RIGHT_SHOOTER_CHANNEL);
 	Encoder rightDriveEncoder = new Encoder(Defines.RIGHT_DRIVE_ENCODER_CHANNEL_A,
 			Defines.RIGHT_DRIVE_ENCODER_CHANNEL_B, true, EncodingType.k4X);
-	Encoder shooterAngleEncoder = new Encoder(9, 8, true, EncodingType.k4X);
+	Encoder shooterAngleEncoder = new Encoder(Defines.SHOOTER_ANGLE_ENCODER_CHANNEL_A,
+			Defines.SHOOTER_ANGLE_ENCODER_CHANNEL_B, true, EncodingType.k4X);
 	Timer time = new Timer();
 	Auto auto = new Auto();
 
@@ -39,10 +41,20 @@ public class Components {
 		auto.initializeSmartDashBoard(this);
 	}
 
-	public boolean isAuto() {
+	public boolean isAuto() throws AutoEndException {
 		if (!isAutoCheck.getAsBoolean()) {
-			throw new RuntimeException("isAuto is false");
+			throw new AutoEndException();
 		}
 		return isAutoCheck.getAsBoolean();
+	}
+
+	public void resetAll() {
+		leftShooterMotor.set(0);
+		rightShooterMotor.set(0);
+		shooterBallPusherMotor.set(Relay.Value.kOff);
+		obsticalLiftingMotor.set(Relay.Value.kOff);
+		shooterAngleMotor.set(Relay.Value.kOff);
+		leftDrive.set(0);
+		rightDrive.set(0);
 	}
 }

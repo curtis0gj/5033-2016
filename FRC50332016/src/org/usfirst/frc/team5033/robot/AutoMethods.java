@@ -15,7 +15,7 @@ public abstract class AutoMethods {
 		return Math.max(low, Math.min(num, high));
 	}
 
-	public void timeDelay(double desiredTime) {
+	public void timeDelay(double desiredTime) throws AutoEndException {
 		double startingTime = c.time.get();
 		while (c.isAuto()) {
 			double currentTime = c.time.get();
@@ -34,7 +34,7 @@ public abstract class AutoMethods {
 		return calcSpeedForGyroscopeTurningLeftDrive(-currentAngle);
 	}
 
-	public void gyroTurning(double desiredAngle) {
+	public void gyroTurning(double desiredAngle) throws AutoEndException {
 		// - 90 for a desired angle is left and + 90 is right.
 		double startingAngle = c.gyro.getAngle();
 
@@ -61,7 +61,7 @@ public abstract class AutoMethods {
 		return calcSpeedForGoingStraightLeftDrive(-currentAngle);
 	}
 
-	public void driving(double desiredDistance) {
+	public void driving(double desiredDistance) throws AutoEndException {
 		double startingAngle = c.gyro.getAngle();
 		c.rightDriveEncoder.reset();
 		while (c.isAuto()) {
@@ -82,7 +82,7 @@ public abstract class AutoMethods {
 		}
 	}
 
-	public void drivingOverObsticals(double desiredDistance) {
+	public void drivingOverObsticals(double desiredDistance) throws AutoEndException {
 		c.rightDriveEncoder.reset();
 		while (c.isAuto()) {
 			double currentDistance = c.rightDriveEncoder.getDistance();
@@ -101,7 +101,7 @@ public abstract class AutoMethods {
 	}
 
 	public double calcSpeedForVisionTurnLeftDrive(double azimuth) {
-		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.25, 0.25);
+		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.15, 0.15);
 	}
 
 	public double calcSpeedForVisionTurnRightDrive(double azimuth) {
@@ -110,7 +110,7 @@ public abstract class AutoMethods {
 
 	public boolean isVisionAiming = false;
 
-	public void visionAiming() {
+	public void visionAiming() throws AutoEndException {
 		isVisionAiming = true;
 		while (c.isAuto()) {
 			vd.updateVisionData();
@@ -133,7 +133,7 @@ public abstract class AutoMethods {
 		return clamp((Math.atan(visionDistance / 3)) / 3, -0.4, 0.4);
 	}
 
-	public void visionDriving() {
+	public void visionDriving() throws AutoEndException {
 		while (c.isAuto()) {
 			vd.updateVisionData();
 			vd.visionTrackingRunningCheck();
@@ -153,7 +153,7 @@ public abstract class AutoMethods {
 		}
 	}
 
-	private void findTarget(VisionData vd) {
+	private void findTarget(VisionData vd) throws AutoEndException {
 		while (c.isAuto()) {
 			vd.visionTrackingRunningCheck();
 			if (!vd.isUsable()) {
@@ -170,32 +170,33 @@ public abstract class AutoMethods {
 		}
 	}
 
-	public void gyroCentering() {
+	public void gyroCentering() throws AutoEndException {
 		while (c.isAuto()) {
 			gyroTurning(-c.gyro.getAngle());
 			break;
 		}
 	}
 
-	public void angleShooter(double desiredAngle) {
-		// Once the shooter is finished then I will do this.
+	public void angleShooter() throws AutoEndException {
+		c.shooterAngleEncoder.reset();
 		while (c.isAuto()) {
 			double currentShooterAngle = c.shooterAngleEncoder.get();
+			double desiredAngle = 30;
 
-			c.shooterAngleMotor.set(Relay.Value.kForward);
+			c.shooterAngleMotor.set(Relay.Value.kReverse);
 
-			if (currentShooterAngle > desiredAngle) {
+			if (currentShooterAngle >= desiredAngle) {
 				c.shooterAngleMotor.set(Relay.Value.kOff);
 				break;
 			}
 		}
 	}
 
-	public void shoot() {
+	public void shoot() throws AutoEndException {
 		double startTime = c.time.get();
 		while (c.isAuto()) {
-			double warmUpShooterMotorPeriod = 2;
-			double pushingBallPeriod = 4;
+			double warmUpShooterMotorPeriod = 0.5;
+			double pushingBallPeriod = 1;
 
 			double currentTime = c.time.get();
 			double deltaTime = currentTime - startTime;
@@ -216,5 +217,5 @@ public abstract class AutoMethods {
 		}
 	}
 
-	public abstract void run();
+	public abstract void run() throws AutoEndException;
 }
