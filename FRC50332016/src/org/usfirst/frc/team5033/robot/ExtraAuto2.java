@@ -6,7 +6,7 @@ public class ExtraAuto2 extends AutoMethods {
 		super(c);
 	}
 
-	public void run() {
+	public void run() throws AutoEndException {
 
 	}
 }

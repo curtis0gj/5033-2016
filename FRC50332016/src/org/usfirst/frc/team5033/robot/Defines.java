@@ -10,15 +10,12 @@ public class Defines {
 	public static final int LEFT_SHOOTER_CHANNEL = 9;
 	// PWM channel.
 	public static final int RIGHT_SHOOTER_CHANNEL = 8;
-	// Relay channel.
-	public static final int SHOOTER_ANGLE_MOTOR_CHANNEL = 0;
+	// PWM channel.
+	public static final int SHOOTER_ANGLE_MOTOR_CHANNEL = 5;
 	// Relay channel.
 	public static final int SHOOTER_BALL_PUSHER_MOTOR_CHANNEL = 3;
-	// Relay channel.
-	public static final int OBSTICAL_LIFTING_MOTOR_CHANNEL = 2;
-
-	public static final int SHOOTER_ANGLE_ENCODER_CHANNEL_A = 8;
-	public static final int SHOOTER_ANGLE_ENCODER_CHANNEL_B = 9;
+	// PWM channel.
+	public static final int OBSTICAL_LIFTING_MOTOR_CHANNEL = 6;
 
 	public static final int JOYSTICK_CHANNEL = 0;
 	public static final int XBOX_CHANNEL = 1;
@@ -37,13 +34,9 @@ public class Defines {
 	public static final int XBOX_Y_BUTTON = 4;
 	public static final int XBOX_X_BUTTON = 3;
 	public static final int XBOX_B_BUTTON = 2;
-	public static final int XBOX_BACK_BUTTON = 7;
 
 	public static final double MINIMUM_Y_AXIS = -0.5;
 	public static final double MAXIMUM_Y_AXIS = 0.5;
-
-	public static final double UP_SHOOTER_ANGLE_INTERVAL = 1;
-	public static final double DOWN_SHOOTER_ANGLE_INTERVAL = -1;
 
 	public static final int JOYSTICK_TRIGGER = 1;
 
@@ -56,6 +49,9 @@ public class Defines {
 	public static final double LEFT_IMPELL_SPEED = -0.50;
 	public static final double RIGHT_IMPELL_SPEED = 0.50;
 	public static final double SHOOTER_OFF = 0.00;
+	public static final double LIFT_OBSTICAL_SPEED = 1.00;
+	public static final double LOWER_OBSTICAL_SPEED = -1.00;
+	public static final double OBSTICAL_OFF = 0.00;
 
 	public static final double WHEEL_DIAMETER = 7.65;
 	public static final double PULSE_PER_REVOLUTION = 360;

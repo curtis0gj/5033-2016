@@ -8,12 +8,12 @@ public class MiddleGoalShoot extends AutoMethods {
 
 	public void run() throws AutoEndException {
 		drivingOverObsticals(160);
-		gyroCentering();
-		visionAiming();
-		visionDriving();
-		visionAiming();
-		angleShooter();
-		timeDelay(1);
-		shoot();
+		// gyroCentering();
+		// visionAiming();
+		// visionDriving();
+		// visionAiming();
+		// angleShooter();
+		// timeDelay(1);
+		// shoot();
 	}
 }

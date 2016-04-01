@@ -178,15 +178,16 @@ public abstract class AutoMethods {
 	}
 
 	public void angleShooter() throws AutoEndException {
-		c.shooterAngleEncoder.reset();
+		double startTime = c.time.get();
 		while (c.isAuto()) {
-			double currentShooterAngle = c.shooterAngleEncoder.get();
-			double desiredAngle = 30;
+			double shootingTime = .75;
 
-			c.shooterAngleMotor.set(Relay.Value.kReverse);
+			double deltaTime = shootingTime - startTime;
 
-			if (currentShooterAngle >= desiredAngle) {
-				c.shooterAngleMotor.set(Relay.Value.kOff);
+			c.shooterAngleMotor.set(-0.33);
+
+			if (deltaTime >= shootingTime) {
+				c.shooterAngleMotor.set(0);
 				break;
 			}
 		}

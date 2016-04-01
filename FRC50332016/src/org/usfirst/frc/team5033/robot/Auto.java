@@ -11,7 +11,7 @@ public class Auto {
 		c.chooser.addDefault("DO NOTHING (DEFAULT)", Defines.AutonomousRoutines.DO_NOTHING);
 		c.chooser.addObject("LOW BAR BOTTOM GOAL SHOOT", Defines.AutonomousRoutines.LOW_BAR_BOTTOM_GOAL_SHOOT);
 		c.chooser.addObject("TRAVERSE DEFENSE CENTER GOAL SHOOT", Defines.AutonomousRoutines.CENTER_GOAL_SHOOT);
-		c.chooser.addObject("TESTING SHOOTER AUTO", Defines.AutonomousRoutines.EXTRA_AUTO_1);
+		c.chooser.addObject("EXTRA AUTO 1", Defines.AutonomousRoutines.EXTRA_AUTO_1);
 		c.chooser.addObject("EXTRA AUTO 2", Defines.AutonomousRoutines.EXTRA_AUTO_2);
 		c.chooser.addObject("EXTRA AUTO 3", Defines.AutonomousRoutines.EXTRA_AUTO_3);
 		SmartDashboard.putData("AUTONOMOUS MODES", c.chooser);

@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 public class Components {
 	public BooleanSupplier isAutoCheck;
-	RobotDrive tankDrive;
 	NetworkTable table;
 	SendableChooser chooser = new SendableChooser();
 	Joystick joystick = new Joystick(Defines.JOYSTICK_CHANNEL);
@@ -23,17 +22,16 @@ public class Components {
 	Talon leftDrive = new Talon(Defines.LEFT_DRIVE_CHANNEL);
 	Talon rightDrive = new Talon(Defines.RIGHT_DRIVE_CHANNEL);
 	AnalogGyro gyro = new AnalogGyro(Defines.ANALOG_GYROSCOPE_CHANNEL);
-	Relay shooterAngleMotor = new Relay(Defines.SHOOTER_ANGLE_MOTOR_CHANNEL);
+	Talon shooterAngleMotor = new Talon(Defines.SHOOTER_ANGLE_MOTOR_CHANNEL);
 	Relay shooterBallPusherMotor = new Relay(Defines.SHOOTER_BALL_PUSHER_MOTOR_CHANNEL);
-	Relay obsticalLiftingMotor = new Relay(Defines.OBSTICAL_LIFTING_MOTOR_CHANNEL);
+	Talon obsticalLiftingMotor = new Talon(Defines.OBSTICAL_LIFTING_MOTOR_CHANNEL);
 	TalonSRX leftShooterMotor = new TalonSRX(Defines.LEFT_SHOOTER_CHANNEL);
 	TalonSRX rightShooterMotor = new TalonSRX(Defines.RIGHT_SHOOTER_CHANNEL);
 	Encoder rightDriveEncoder = new Encoder(Defines.RIGHT_DRIVE_ENCODER_CHANNEL_A,
 			Defines.RIGHT_DRIVE_ENCODER_CHANNEL_B, true, EncodingType.k4X);
-	Encoder shooterAngleEncoder = new Encoder(Defines.SHOOTER_ANGLE_ENCODER_CHANNEL_A,
-			Defines.SHOOTER_ANGLE_ENCODER_CHANNEL_B, true, EncodingType.k4X);
 	Timer time = new Timer();
 	Auto auto = new Auto();
+	RobotDrive tankDrive = new RobotDrive(leftDrive, rightDrive);
 
 	public Components(BooleanSupplier robotStateCheck) {
 		isAutoCheck = robotStateCheck;
@@ -52,8 +50,8 @@ public class Components {
 		leftShooterMotor.set(0);
 		rightShooterMotor.set(0);
 		shooterBallPusherMotor.set(Relay.Value.kOff);
-		obsticalLiftingMotor.set(Relay.Value.kOff);
-		shooterAngleMotor.set(Relay.Value.kOff);
+		obsticalLiftingMotor.set(0);
+		shooterAngleMotor.set(0);
 		leftDrive.set(0);
 		rightDrive.set(0);
 	}
