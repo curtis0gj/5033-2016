@@ -61,9 +61,9 @@ public class Defines {
 	public static final double FUDGE_FACTOR = 1.2;
 
 	public enum AutonomousRoutines {
-		DO_NOTHING,
-		LOW_BAR_BOTTOM_GOAL_SHOOT,
-		CENTER_GOAL_SHOOT,
+		DO_NOTHING_AUTO,
+		LOW_BAR_AUTO,
+		DEFENSES_AUTO,
 		EXTRA_AUTO_1,
 		EXTRA_AUTO_2,
 		EXTRA_AUTO_3

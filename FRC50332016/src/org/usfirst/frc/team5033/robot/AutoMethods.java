@@ -87,8 +87,6 @@ public abstract class AutoMethods {
 		while (c.isAuto()) {
 			double currentDistance = c.rightDriveEncoder.getDistance();
 
-			// 160 for a desired distance worked once when the robot was 12
-			// inches from an obstacle.
 			if (currentDistance <= -desiredDistance) {
 				c.rightDrive.set(0);
 				c.leftDrive.set(0);
