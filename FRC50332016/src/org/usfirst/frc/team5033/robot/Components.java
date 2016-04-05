@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 public class Components {
 	public BooleanSupplier isAutoCheck;
 	NetworkTable table;
+	Controls control = new Controls(this);
 	SendableChooser chooser = new SendableChooser();
 	Joystick joystick = new Joystick(Defines.JOYSTICK_CHANNEL);
 	Joystick xbox = new Joystick(Defines.XBOX_CHANNEL);

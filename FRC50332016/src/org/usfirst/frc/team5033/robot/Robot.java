@@ -9,7 +9,7 @@ public class Robot extends IterativeRobot {
 	Defines.AutonomousRoutines routines;
 
 	public void robotInit() {
-
+		c.tankDrive.setSafetyEnabled(false);
 	}
 
 	public void autonomousInit() {
@@ -43,24 +43,17 @@ public class Robot extends IterativeRobot {
 
 	public void teleopPeriodic() {
 		try {
-			double shooterAxis = c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
-			double shooterAngleAxis = c.xbox.getRawAxis(Defines.XBOX_RIGHT_Y_AXIS);
-			boolean liftManipulatorButton = c.xbox.getRawButton(Defines.XBOX_X_BUTTON);
-			boolean lowerManipulatorButton = c.xbox.getRawButton(Defines.XBOX_B_BUTTON);
-			boolean pushBallOutButton = c.xbox.getRawButton(Defines.XBOX_Y_BUTTON);
-			boolean reverseBallPusherMotorButton = c.xbox.getRawButton(Defines.XBOX_A_BUTTON);
-			boolean invertDriveDirectionButton = c.joystick.getRawButton(Defines.JOYSTICK_TRIGGER);
 
-			if (!invertDriveDirectionButton) {
-				c.tankDrive.arcadeDrive(-c.joystick.getY(), -c.joystick.getX());
+			if (!c.control.joystickTrigger()) {
+				c.tankDrive.arcadeDrive(-c.control.joystickY(), -c.control.joystickX() * 0.8);
 			} else {
-				c.tankDrive.arcadeDrive(c.joystick.getY(), -c.joystick.getX());
+				c.tankDrive.arcadeDrive(c.control.joystickY(), -c.control.joystickX() * 0.8);
 			}
 
-			if (shooterAxis < Defines.MINIMUM_Y_AXIS) {
+			if (c.control.xboxLeftYAxis() < Defines.MINIMUM_Y_AXIS) {
 				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
 				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
-			} else if (shooterAxis > Defines.MAXIMUM_Y_AXIS) {
+			} else if (c.control.xboxLeftYAxis() > Defines.MAXIMUM_Y_AXIS) {
 				c.leftShooterMotor.set(Defines.LEFT_IMPELL_SPEED);
 				c.rightShooterMotor.set(Defines.RIGHT_IMPELL_SPEED);
 			} else {
@@ -68,19 +61,19 @@ public class Robot extends IterativeRobot {
 				c.rightShooterMotor.set(Defines.SHOOTER_OFF);
 			}
 
-			c.shooterAngleMotor.set(shooterAngleAxis / 3);
+			c.shooterAngleMotor.set(c.control.xboxRightYAxis() / 3);
 
-			if (pushBallOutButton) {
+			if (c.control.xboxYButton()) {
 				c.shooterBallPusherMotor.set(Relay.Value.kForward);
-			} else if (reverseBallPusherMotorButton) {
+			} else if (c.control.xboxAButton()) {
 				c.shooterBallPusherMotor.set(Relay.Value.kReverse);
 			} else {
 				c.shooterBallPusherMotor.set(Relay.Value.kOff);
 			}
 
-			if (liftManipulatorButton) {
+			if (c.control.xboxXButton()) {
 				c.obsticalLiftingMotor.set(Defines.LIFT_OBSTICAL_SPEED);
-			} else if (lowerManipulatorButton) {
+			} else if (c.control.xboxBButton()) {
 				c.obsticalLiftingMotor.set(Defines.LOWER_OBSTICAL_SPEED);
 			} else {
 				c.obsticalLiftingMotor.set(Defines.OBSTICAL_OFF);

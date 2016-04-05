@@ -27,7 +27,7 @@ public abstract class AutoMethods {
 	}
 
 	public double calcSpeedForGyroscopeTurningLeftDrive(double currentAngle) {
-		return clamp(Math.tan(Math.toRadians(currentAngle)) / 1.40, -0.35, 0.35);
+		return clamp(Math.tan(Math.toRadians(currentAngle)) / 0.7, -0.35, 0.35);
 	}
 
 	public double calcSpeedForGyroscopeTurningRightDrive(double currentAngle) {
@@ -94,8 +94,8 @@ public abstract class AutoMethods {
 				c.leftDrive.set(0);
 				break;
 			} else {
-				c.leftDrive.set(0.5);
-				c.rightDrive.set(-0.5);
+				c.leftDrive.set(0.75);
+				c.rightDrive.set(-0.75);
 			}
 		}
 	}

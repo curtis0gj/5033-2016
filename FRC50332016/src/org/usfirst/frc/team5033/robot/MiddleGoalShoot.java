@@ -7,8 +7,8 @@ public class MiddleGoalShoot extends AutoMethods {
 	}
 
 	public void run() throws AutoEndException {
-		drivingOverObsticals(160);
-		// gyroCentering();
+		drivingOverObsticals(390);
+		gyroCentering();
 		// visionAiming();
 		// visionDriving();
 		// visionAiming();

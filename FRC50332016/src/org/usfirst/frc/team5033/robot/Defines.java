@@ -34,13 +34,14 @@ public class Defines {
 	public static final int XBOX_Y_BUTTON = 4;
 	public static final int XBOX_X_BUTTON = 3;
 	public static final int XBOX_B_BUTTON = 2;
+	public static final int XBOX_BACK_BUTTON = 7;
 
 	public static final double MINIMUM_Y_AXIS = -0.5;
 	public static final double MAXIMUM_Y_AXIS = 0.5;
 
 	public static final int JOYSTICK_TRIGGER = 1;
 
-	public static final double SHOOTER_RANGE = 40;
+	public static final double SHOOTER_RANGE = 60;
 	public static final double SHOOTER_TOLERANCE = 10;
 	public static final double MAX_AZIMUTH = 355;
 	public static final double MIN_AZIMUTH = 5;
