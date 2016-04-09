@@ -112,7 +112,7 @@ public abstract class AutoMethods {
 		isVisionAiming = true;
 		while (c.isAuto()) {
 			vd.updateVisionData();
-			vd.visionTrackingRunningCheck();
+			vd.autoVisionTrackingRunningCheck();
 			findTarget(vd);
 
 			if (vd.azimuth >= Defines.MAX_AZIMUTH || vd.azimuth <= Defines.MIN_AZIMUTH) {
@@ -134,7 +134,7 @@ public abstract class AutoMethods {
 	public void visionDriving() throws AutoEndException {
 		while (c.isAuto()) {
 			vd.updateVisionData();
-			vd.visionTrackingRunningCheck();
+			vd.autoVisionTrackingRunningCheck();
 			findTarget(vd);
 
 			double delta = (Math.abs(vd.visionDistance - Defines.SHOOTER_RANGE));
@@ -153,7 +153,7 @@ public abstract class AutoMethods {
 
 	private void findTarget(VisionData vd) throws AutoEndException {
 		while (c.isAuto()) {
-			vd.visionTrackingRunningCheck();
+			vd.autoVisionTrackingRunningCheck();
 			if (!vd.isUsable()) {
 				vd.updateVisionData();
 				c.leftDrive.set(0.3);

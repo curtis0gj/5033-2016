@@ -30,14 +30,15 @@ public class Defines {
 
 	public static final int XBOX_LEFT_Y_AXIS = 1;
 	public static final int XBOX_RIGHT_Y_AXIS = 5;
+	public static final int XBOX_LEFT_TRIGGER = 3;
 	public static final int XBOX_A_BUTTON = 1;
 	public static final int XBOX_Y_BUTTON = 4;
 	public static final int XBOX_X_BUTTON = 3;
 	public static final int XBOX_B_BUTTON = 2;
 	public static final int XBOX_BACK_BUTTON = 7;
 
-	public static final double MINIMUM_Y_AXIS = -0.5;
-	public static final double MAXIMUM_Y_AXIS = 0.5;
+	public static final double MINIMUM_AXIS_VALUE = -0.5;
+	public static final double MAXIMUM_AXIS_VALUE = 0.5;
 
 	public static final int JOYSTICK_TRIGGER = 1;
 

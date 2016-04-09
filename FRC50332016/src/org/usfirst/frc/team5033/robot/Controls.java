@@ -15,6 +15,10 @@ public class Controls {
 		return c.joystick.getY();
 	}
 
+	public double xboxLeftTrigger() {
+		return c.xbox.getRawAxis(Defines.XBOX_LEFT_TRIGGER);
+	}
+
 	public double xboxLeftYAxis() {
 		return c.xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 	}

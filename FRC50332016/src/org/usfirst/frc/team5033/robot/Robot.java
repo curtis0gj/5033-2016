@@ -2,7 +2,6 @@ package org.usfirst.frc.team5033.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	Components c = new Components(() -> isEnabled() && isAutonomous());
@@ -50,10 +49,10 @@ public class Robot extends IterativeRobot {
 				c.tankDrive.arcadeDrive(c.control.joystickY(), -c.control.joystickX() * 0.8);
 			}
 
-			if (c.control.xboxLeftYAxis() < Defines.MINIMUM_Y_AXIS) {
+			if (c.control.xboxLeftYAxis() < Defines.MINIMUM_AXIS_VALUE) {
 				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
 				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
-			} else if (c.control.xboxLeftYAxis() > Defines.MAXIMUM_Y_AXIS) {
+			} else if (c.control.xboxLeftYAxis() > Defines.MAXIMUM_AXIS_VALUE) {
 				c.leftShooterMotor.set(Defines.LEFT_IMPELL_SPEED);
 				c.rightShooterMotor.set(Defines.RIGHT_IMPELL_SPEED);
 			} else {
@@ -81,21 +80,12 @@ public class Robot extends IterativeRobot {
 
 			VisionData vd = new VisionData(c);
 
-			if (vd.isUsable()) {
-				if (Math.abs(Defines.SHOOTER_RANGE - vd.visionDistance) <= Defines.SHOOTER_TOLERANCE) {
-					SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", true);
-				} else {
-					SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", false);
-				}
-				if (vd.azimuth >= Defines.MAX_AZIMUTH || vd.azimuth <= Defines.MIN_AZIMUTH) {
-					SmartDashboard.putBoolean("SHOOTER AZIMUTH CHECK", true);
-				} else {
-					SmartDashboard.putBoolean("SHOOTER AZIMUTH CHECK", false);
-				}
+			if (vd.isUsable() && c.control.xboxLeftTrigger() > Defines.MAXIMUM_AXIS_VALUE) {
+				TeleopAutoAim autoAim = new TeleopAutoAim(c);
 
-			} else {
-				SmartDashboard.putBoolean("SHOOTER DISTANCE CHECK", false);
-				SmartDashboard.putBoolean("SHOOTER AZIMUTH CHECK", false);
+				autoAim.azimuthAiming();
+
+				autoAim.indicators();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

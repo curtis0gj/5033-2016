@@ -26,7 +26,7 @@ public class VisionData {
 		}
 	}
 
-	public void targetLost() throws AutoEndException {
+	public void autoTargetLost() throws AutoEndException {
 		if (distanceAndAzimuth.toString() == "3.14:-1") {
 			while (c.isAuto()) {
 				updateVisionData();
@@ -37,7 +37,7 @@ public class VisionData {
 		}
 	}
 
-	public void visionTrackingRunningCheck() throws AutoEndException {
+	public void autoVisionTrackingRunningCheck() throws AutoEndException {
 		if (distanceAndAzimuth.length <= 1) {
 			while (c.isAuto()) {
 				updateVisionData();
