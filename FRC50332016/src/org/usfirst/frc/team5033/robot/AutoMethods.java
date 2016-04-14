@@ -11,9 +11,10 @@ public abstract class AutoMethods {
 		vd = new VisionData(c);
 	}
 
-	public double clamp(double num, double low, double high) {
-		return Math.max(low, Math.min(num, high));
-	}
+	/*
+	 * public double clamp(double num, double low, double high) { return
+	 * Math.max(low, Math.min(num, high)); }
+	 */
 
 	/*
 	 * public double calcSpeedForGyroscopeTurningLeftDrive(double currentAngle)
