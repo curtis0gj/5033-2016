@@ -3,7 +3,6 @@ package org.usfirst.frc.team5033.robot;
 import java.util.function.BooleanSupplier;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
@@ -16,10 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 public class Components {
 	public BooleanSupplier isAutoCheck;
 	NetworkTable table;
-	Controls control = new Controls(this);
 	SendableChooser chooser = new SendableChooser();
-	Joystick joystick = new Joystick(Defines.JOYSTICK_CHANNEL);
-	Joystick xbox = new Joystick(Defines.XBOX_CHANNEL);
 	Talon leftDrive = new Talon(Defines.LEFT_DRIVE_CHANNEL);
 	Talon rightDrive = new Talon(Defines.RIGHT_DRIVE_CHANNEL);
 	AnalogGyro gyro = new AnalogGyro(Defines.ANALOG_GYROSCOPE_CHANNEL);
@@ -55,5 +51,13 @@ public class Components {
 		shooterAngleMotor.set(0);
 		leftDrive.set(0);
 		rightDrive.set(0);
+		time.stop();
+	}
+
+	public void setSensors() {
+		rightDriveEncoder.setDistancePerPulse(Defines.DISTANCE_PER_PULSE);
+		gyro.reset();
+		rightDriveEncoder.reset();
+		time.start();
 	}
 }

@@ -1,30 +1,24 @@
 package org.usfirst.frc.team5033.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Relay;
 
 public class Robot extends IterativeRobot {
 	Components c = new Components(() -> isEnabled() && isAutonomous());
-	Defines.AutonomousRoutines routines;
+
+	Controls control = new Controls();
+
+	RelayButtonUpdator shooterBallPusher;
+	MotorControllerButtonUpdator liftObsticals;
 
 	public void robotInit() {
-		c.tankDrive.setSafetyEnabled(false);
 	}
 
 	public void autonomousInit() {
-		final double distancePerPulse = Math.PI * Defines.WHEEL_DIAMETER / Defines.PULSE_PER_REVOLUTION
-				/ Defines.ENCODER_GEAR_RATIO / Defines.GEAR_RATIO * Defines.FUDGE_FACTOR;
-		c.rightDriveEncoder.setDistancePerPulse(distancePerPulse);
-		c.gyro.reset();
-		c.rightDriveEncoder.reset();
-		c.time.start();
-
 		c.resetAll();
-
-		routines = (Defines.AutonomousRoutines) c.chooser.getSelected();
+		c.setSensors();
 
 		try {
-			c.auto.run(routines, c);
+			c.auto.run(c.auto.routines, c);
 		} catch (AutoEndException se) {
 
 		} catch (Exception e) {
@@ -33,26 +27,29 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousPeriodic() {
-
 	}
 
 	public void teleopInit() {
 		c.resetAll();
+		shooterBallPusher = new RelayButtonUpdator(c.shooterBallPusherMotor, control.xboxYButton(),
+				control.xboxAButton());
+		liftObsticals = new MotorControllerButtonUpdator(c.obsticalLiftingMotor, control.xboxXButton(),
+				control.xboxBButton());
 	}
 
 	public void teleopPeriodic() {
 		try {
 
-			if (!c.control.joystickTrigger()) {
-				c.tankDrive.arcadeDrive(-c.control.joystickY(), -c.control.joystickX() * 0.8);
+			if (!control.joystickTrigger()) {
+				c.tankDrive.arcadeDrive(-control.joystickY(), -control.joystickX() * Defines.ROBOT_TURNING_ADJUSTMENT);
 			} else {
-				c.tankDrive.arcadeDrive(c.control.joystickY(), -c.control.joystickX() * 0.8);
+				c.tankDrive.arcadeDrive(control.joystickY(), -control.joystickX() * Defines.ROBOT_TURNING_ADJUSTMENT);
 			}
 
-			if (c.control.xboxLeftYAxis() < Defines.MINIMUM_AXIS_VALUE) {
+			if (control.xboxLeftYAxis() < Defines.MINIMUM_AXIS_VALUE) {
 				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
 				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
-			} else if (c.control.xboxLeftYAxis() > Defines.MAXIMUM_AXIS_VALUE) {
+			} else if (control.xboxLeftYAxis() > Defines.MAXIMUM_AXIS_VALUE) {
 				c.leftShooterMotor.set(Defines.LEFT_IMPELL_SPEED);
 				c.rightShooterMotor.set(Defines.RIGHT_IMPELL_SPEED);
 			} else {
@@ -60,27 +57,13 @@ public class Robot extends IterativeRobot {
 				c.rightShooterMotor.set(Defines.SHOOTER_OFF);
 			}
 
-			c.shooterAngleMotor.set(c.control.xboxRightYAxis() / 3);
-
-			if (c.control.xboxYButton()) {
-				c.shooterBallPusherMotor.set(Relay.Value.kForward);
-			} else if (c.control.xboxAButton()) {
-				c.shooterBallPusherMotor.set(Relay.Value.kReverse);
-			} else {
-				c.shooterBallPusherMotor.set(Relay.Value.kOff);
-			}
-
-			if (c.control.xboxXButton()) {
-				c.obsticalLiftingMotor.set(Defines.LIFT_OBSTICAL_SPEED);
-			} else if (c.control.xboxBButton()) {
-				c.obsticalLiftingMotor.set(Defines.LOWER_OBSTICAL_SPEED);
-			} else {
-				c.obsticalLiftingMotor.set(Defines.OBSTICAL_OFF);
-			}
+			c.shooterAngleMotor.set(control.xboxRightYAxis() / 3);
+			shooterBallPusher.update();
+			liftObsticals.update();
 
 			VisionData vd = new VisionData(c);
 
-			if (vd.isUsable() && c.control.xboxLeftTrigger() > Defines.MAXIMUM_AXIS_VALUE) {
+			if (vd.isUsable() && control.xboxLeftTrigger() > Defines.MAXIMUM_AXIS_VALUE) {
 				TeleopAutoAim autoAim = new TeleopAutoAim(c);
 
 				autoAim.azimuthAiming();

@@ -42,6 +42,8 @@ public class Defines {
 
 	public static final int JOYSTICK_TRIGGER = 1;
 
+	public static final double ROBOT_TURNING_ADJUSTMENT = 0.8;
+
 	public static final double SHOOTER_RANGE = 60;
 	public static final double SHOOTER_TOLERANCE = 10;
 	public static final double MAX_AZIMUTH = 355;
@@ -60,13 +62,12 @@ public class Defines {
 	public static final double ENCODER_GEAR_RATIO = 1;
 	public static final double GEAR_RATIO = 1 / 1.667;
 	public static final double FUDGE_FACTOR = 1.2;
+	public static final double DISTANCE_PER_PULSE = Math.PI * WHEEL_DIAMETER / PULSE_PER_REVOLUTION / ENCODER_GEAR_RATIO
+			/ GEAR_RATIO * FUDGE_FACTOR;
 
 	public enum AutonomousRoutines {
 		DO_NOTHING_AUTO,
 		LOW_BAR_AUTO,
-		DEFENSES_AUTO,
-		EXTRA_AUTO_1,
-		EXTRA_AUTO_2,
-		EXTRA_AUTO_3
+		DEFENSES_AUTO
 	}
 }

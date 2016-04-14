@@ -15,24 +15,14 @@ public abstract class AutoMethods {
 		return Math.max(low, Math.min(num, high));
 	}
 
-	public void timeDelay(double desiredTime) throws AutoEndException {
-		double startingTime = c.time.get();
-		while (c.isAuto()) {
-			double currentTime = c.time.get();
-			double deltaTime = currentTime - startingTime;
-			if (deltaTime >= desiredTime) {
-				break;
-			}
-		}
-	}
-
-	public double calcSpeedForGyroscopeTurningLeftDrive(double currentAngle) {
-		return clamp(Math.tan(Math.toRadians(currentAngle)) / 0.7, -0.35, 0.35);
-	}
-
-	public double calcSpeedForGyroscopeTurningRightDrive(double currentAngle) {
-		return calcSpeedForGyroscopeTurningLeftDrive(-currentAngle);
-	}
+	/*
+	 * public double calcSpeedForGyroscopeTurningLeftDrive(double currentAngle)
+	 * { return clamp(Math.tan(Math.toRadians(currentAngle)) / 0.7, -0.35,
+	 * 0.35); }
+	 * 
+	 * public double calcSpeedForGyroscopeTurningRightDrive(double currentAngle)
+	 * { return calcSpeedForGyroscopeTurningLeftDrive(-currentAngle); }
+	 */
 
 	public void gyroTurning(double desiredAngle) throws AutoEndException {
 		// - 90 for a desired angle is left and + 90 is right.
@@ -47,19 +37,22 @@ public abstract class AutoMethods {
 				c.rightDrive.set(0);
 				break;
 			} else {
-				c.leftDrive.set(calcSpeedForGyroscopeTurningLeftDrive(delta));
-				c.rightDrive.set(-calcSpeedForGyroscopeTurningRightDrive(delta));
+				c.leftDrive.set(Functions.calcSpeedForGyroscopeTurning(delta));
+				c.rightDrive.set(Functions.calcSpeedForGyroscopeTurning(delta) * Functions.RIGHT);
+				// c.leftDrive.set(calcSpeedForGyroscopeTurningLeftDrive(delta));
+				// c.rightDrive.set(-calcSpeedForGyroscopeTurningRightDrive(delta));
 			}
 		}
 	}
 
-	public double calcSpeedForGoingStraightLeftDrive(double currentAngle) {
-		return clamp(Math.tan(Math.toRadians(currentAngle)) / 2 + 0.3, -0.35, 0.35);
-	}
-
-	public double calcSpeedForGoingStraightRightDrive(double currentAngle) {
-		return calcSpeedForGoingStraightLeftDrive(-currentAngle);
-	}
+	/*
+	 * public double calcSpeedForGoingStraightLeftDrive(double currentAngle) {
+	 * return clamp(Math.tan(Math.toRadians(currentAngle)) / 2 + 0.3, -0.35,
+	 * 0.35); }
+	 * 
+	 * public double calcSpeedForGoingStraightRightDrive(double currentAngle) {
+	 * return calcSpeedForGoingStraightLeftDrive(-currentAngle); }
+	 */
 
 	public void driving(double desiredDistance) throws AutoEndException {
 		double startingAngle = c.gyro.getAngle();
@@ -76,8 +69,10 @@ public abstract class AutoMethods {
 			} else {
 				// Positive for left drive and negative for right drive will
 				// make the robot go forward.
-				c.leftDrive.set(calcSpeedForGoingStraightLeftDrive(deltaAngle));
-				c.rightDrive.set(-calcSpeedForGoingStraightRightDrive(deltaAngle));
+				// c.leftDrive.set(calcSpeedForGoingStraightLeftDrive(deltaAngle));
+				// c.rightDrive.set(-calcSpeedForGoingStraightRightDrive(deltaAngle));
+				c.leftDrive.set(Functions.calcSpeedForDrivingStraight(deltaAngle));
+				c.rightDrive.set(Functions.calcSpeedForDrivingStraight(deltaAngle * Functions.RIGHT));
 			}
 		}
 	}
@@ -98,13 +93,13 @@ public abstract class AutoMethods {
 		}
 	}
 
-	public double calcSpeedForVisionTurnLeftDrive(double azimuth) {
-		return clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.15, 0.15);
-	}
-
-	public double calcSpeedForVisionTurnRightDrive(double azimuth) {
-		return calcSpeedForVisionTurnLeftDrive(-azimuth);
-	}
+	/*
+	 * public double calcSpeedForVisionTurnLeftDrive(double azimuth) { return
+	 * clamp(Math.tan(Math.toRadians(azimuth)) / 1, -0.15, 0.15); }
+	 * 
+	 * public double calcSpeedForVisionTurnRightDrive(double azimuth) { return
+	 * calcSpeedForVisionTurnLeftDrive(-azimuth); }
+	 */
 
 	public boolean isVisionAiming = false;
 
@@ -121,15 +116,19 @@ public abstract class AutoMethods {
 				isVisionAiming = false;
 				break;
 			} else {
-				c.leftDrive.set(calcSpeedForVisionTurnLeftDrive(vd.azimuth));
-				c.rightDrive.set(-calcSpeedForVisionTurnRightDrive(vd.azimuth));
+				// c.leftDrive.set(calcSpeedForVisionTurnLeftDrive(vd.azimuth));
+				// c.rightDrive.set(-calcSpeedForVisionTurnRightDrive(vd.azimuth));
+				c.leftDrive.set(Functions.calcSpeedForVisionTurning(vd.azimuth));
+				c.rightDrive.set(Functions.RIGHT * Functions.calcSpeedForVisionTurning(vd.azimuth));
+
 			}
 		}
 	}
 
-	public double calcSpeedFromDistance(double visionDistance) {
-		return clamp((Math.atan(visionDistance / 3)) / 3, -0.4, 0.4);
-	}
+	/*
+	 * public double calcSpeedFromDistance(double visionDistance) { return
+	 * clamp((Math.atan(visionDistance / 3)) / 3, -0.4, 0.4); }
+	 */
 
 	public void visionDriving() throws AutoEndException {
 		while (c.isAuto()) {
@@ -145,8 +144,10 @@ public abstract class AutoMethods {
 				c.rightDrive.set(0);
 				break;
 			} else {
-				c.leftDrive.set(calcSpeedFromDistance(alpha));
-				c.rightDrive.set(-calcSpeedFromDistance(alpha));
+				// c.leftDrive.set(calcSpeedFromDistance(alpha));
+				// c.rightDrive.set(-calcSpeedFromDistance(alpha));
+				c.leftDrive.set(Functions.calcSpeedForVisionDriving(alpha));
+				c.rightDrive.set(Functions.RIGHT * Functions.calcSpeedForVisionDriving(alpha));
 			}
 		}
 	}
