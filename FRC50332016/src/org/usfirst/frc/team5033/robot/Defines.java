@@ -48,14 +48,17 @@ public class Defines {
 	public static final double SHOOTER_TOLERANCE = 10;
 	public static final double MAX_AZIMUTH = 355;
 	public static final double MIN_AZIMUTH = 5;
-	public static final double LEFT_SHOOT_SPEED = 1.00;
-	public static final double RIGHT_SHOOT_SPEED = -1.00;
-	public static final double LEFT_IMPELL_SPEED = -0.50;
-	public static final double RIGHT_IMPELL_SPEED = 0.50;
-	public static final double SHOOTER_OFF = 0.00;
-	public static final double LIFT_OBSTICAL_SPEED = 1.00;
-	public static final double LOWER_OBSTICAL_SPEED = -1.00;
-	public static final double OBSTICAL_OFF = 0.00;
+	/*
+	 * public static final double LEFT_SHOOT_SPEED = 1.00; public static final
+	 * double RIGHT_SHOOT_SPEED = -1.00; public static final double
+	 * LEFT_IMPELL_SPEED = -0.50; public static final double RIGHT_IMPELL_SPEED
+	 * = 0.50; public static final double SHOOTER_OFF = 0.00;
+	 */
+	public static final double MOTOR_HALF_SPEED_FORWARD = 0.50;
+	public static final double MOTOR_HALF_SPEED_REVERSE = -0.50;
+	public static final double MOTOR_FULL_SPEED_FORWARD = 1.00;
+	public static final double MOTOR_FULL_SPEED_REVERSE = -1.00;
+	public static final double MOTOR_OFF = 0.00;
 
 	public static final double WHEEL_DIAMETER = 7.65;
 	public static final double PULSE_PER_REVOLUTION = 360;

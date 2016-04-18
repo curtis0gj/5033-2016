@@ -38,8 +38,8 @@ public abstract class AutoMethods {
 				c.rightDrive.set(0);
 				break;
 			} else {
-				c.leftDrive.set(Functions.calcSpeedForGyroscopeTurning(delta));
-				c.rightDrive.set(Functions.calcSpeedForGyroscopeTurning(delta) * Functions.RIGHT);
+				c.leftDrive.set(CalcSpeed.calcSpeedForGyroscopeTurning(delta, CalcSpeed.LEFT));
+				c.rightDrive.set(CalcSpeed.calcSpeedForGyroscopeTurning(delta, CalcSpeed.RIGHT));
 				// c.leftDrive.set(calcSpeedForGyroscopeTurningLeftDrive(delta));
 				// c.rightDrive.set(-calcSpeedForGyroscopeTurningRightDrive(delta));
 			}
@@ -72,8 +72,8 @@ public abstract class AutoMethods {
 				// make the robot go forward.
 				// c.leftDrive.set(calcSpeedForGoingStraightLeftDrive(deltaAngle));
 				// c.rightDrive.set(-calcSpeedForGoingStraightRightDrive(deltaAngle));
-				c.leftDrive.set(Functions.calcSpeedForDrivingStraight(deltaAngle));
-				c.rightDrive.set(Functions.calcSpeedForDrivingStraight(deltaAngle * Functions.RIGHT));
+				c.leftDrive.set(CalcSpeed.calcSpeedForDrivingStraight(deltaAngle, CalcSpeed.LEFT));
+				c.rightDrive.set(CalcSpeed.calcSpeedForDrivingStraight(deltaAngle, CalcSpeed.RIGHT));
 			}
 		}
 	}
@@ -119,9 +119,8 @@ public abstract class AutoMethods {
 			} else {
 				// c.leftDrive.set(calcSpeedForVisionTurnLeftDrive(vd.azimuth));
 				// c.rightDrive.set(-calcSpeedForVisionTurnRightDrive(vd.azimuth));
-				c.leftDrive.set(Functions.calcSpeedForVisionTurning(vd.azimuth));
-				c.rightDrive.set(Functions.RIGHT * Functions.calcSpeedForVisionTurning(vd.azimuth));
-
+				c.leftDrive.set(CalcSpeed.calcSpeedForVisionTurning(vd.azimuth, CalcSpeed.LEFT));
+				c.rightDrive.set(CalcSpeed.RIGHT * CalcSpeed.calcSpeedForVisionTurning(vd.azimuth, CalcSpeed.RIGHT));
 			}
 		}
 	}
@@ -147,8 +146,8 @@ public abstract class AutoMethods {
 			} else {
 				// c.leftDrive.set(calcSpeedFromDistance(alpha));
 				// c.rightDrive.set(-calcSpeedFromDistance(alpha));
-				c.leftDrive.set(Functions.calcSpeedForVisionDriving(alpha));
-				c.rightDrive.set(Functions.RIGHT * Functions.calcSpeedForVisionDriving(alpha));
+				c.leftDrive.set(CalcSpeed.calcSpeedForVisionDriving(alpha, CalcSpeed.LEFT));
+				c.rightDrive.set(CalcSpeed.RIGHT * CalcSpeed.calcSpeedForVisionDriving(alpha, CalcSpeed.RIGHT));
 			}
 		}
 	}
@@ -203,15 +202,15 @@ public abstract class AutoMethods {
 			double deltaTime = currentTime - startTime;
 
 			if (deltaTime < warmUpShooterMotorPeriod) {
-				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
-				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
+				c.leftShooterMotor.set(Defines.MOTOR_FULL_SPEED_FORWARD);
+				c.rightShooterMotor.set(Defines.MOTOR_FULL_SPEED_REVERSE);
 			} else if (deltaTime > warmUpShooterMotorPeriod && deltaTime < pushingBallPeriod) {
-				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
-				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
+				c.leftShooterMotor.set(Defines.MOTOR_FULL_SPEED_FORWARD);
+				c.rightShooterMotor.set(Defines.MOTOR_FULL_SPEED_REVERSE);
 				c.shooterBallPusherMotor.set(Relay.Value.kForward);
 			} else {
-				c.leftShooterMotor.set(Defines.SHOOTER_OFF);
-				c.rightShooterMotor.set(Defines.SHOOTER_OFF);
+				c.leftShooterMotor.set(Defines.MOTOR_OFF);
+				c.rightShooterMotor.set(Defines.MOTOR_OFF);
 				c.shooterBallPusherMotor.set(Relay.Value.kOff);
 				break;
 			}

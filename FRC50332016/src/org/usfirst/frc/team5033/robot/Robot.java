@@ -7,8 +7,9 @@ public class Robot extends IterativeRobot {
 
 	Controls control = new Controls();
 
-	RelayButtonUpdator shooterBallPusher;
-	MotorControllerButtonUpdator liftObsticals;
+	RelayUpdater shooterBallPusher;
+	MotorControllerUpdater liftObsticals;
+	MotorControllerUpdater shootBalls;
 
 	public void robotInit() {
 	}
@@ -31,10 +32,11 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 		c.resetAll();
-		shooterBallPusher = new RelayButtonUpdator(c.shooterBallPusherMotor, control.xboxYButton(),
-				control.xboxAButton());
-		liftObsticals = new MotorControllerButtonUpdator(c.obsticalLiftingMotor, control.xboxXButton(),
-				control.xboxBButton());
+		shooterBallPusher = new RelayUpdater(c.shooterBallPusherMotor, control.xboxYButton(), control.xboxAButton());
+		liftObsticals = new MotorControllerUpdater(c.obsticalLiftingMotor, null, null, control.xboxXButton(),
+				control.xboxBButton(), null);
+		shootBalls = new MotorControllerUpdater(null, c.leftShooterMotor, c.rightShooterMotor, null, null,
+				control.xboxLeftYAxis());
 	}
 
 	public void teleopPeriodic() {
@@ -46,20 +48,11 @@ public class Robot extends IterativeRobot {
 				c.tankDrive.arcadeDrive(control.joystickY(), -control.joystickX() * Defines.ROBOT_TURNING_ADJUSTMENT);
 			}
 
-			if (control.xboxLeftYAxis() < Defines.MINIMUM_AXIS_VALUE) {
-				c.leftShooterMotor.set(Defines.LEFT_SHOOT_SPEED);
-				c.rightShooterMotor.set(Defines.RIGHT_SHOOT_SPEED);
-			} else if (control.xboxLeftYAxis() > Defines.MAXIMUM_AXIS_VALUE) {
-				c.leftShooterMotor.set(Defines.LEFT_IMPELL_SPEED);
-				c.rightShooterMotor.set(Defines.RIGHT_IMPELL_SPEED);
-			} else {
-				c.leftShooterMotor.set(Defines.SHOOTER_OFF);
-				c.rightShooterMotor.set(Defines.SHOOTER_OFF);
-			}
-
 			c.shooterAngleMotor.set(control.xboxRightYAxis() / 3);
+
 			shooterBallPusher.update();
 			liftObsticals.update();
+			shootBalls.update2();
 
 			VisionData vd = new VisionData(c);
 

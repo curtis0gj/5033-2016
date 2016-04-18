@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5033.robot;
 
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -23,8 +24,8 @@ public class Controls {
 		return xbox.getRawAxis(Defines.XBOX_LEFT_TRIGGER);
 	}
 
-	public double xboxLeftYAxis() {
-		return xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
+	public DoubleSupplier xboxLeftYAxis() {
+		return () -> xbox.getRawAxis(Defines.XBOX_LEFT_Y_AXIS);
 	}
 
 	public double xboxRightYAxis() {

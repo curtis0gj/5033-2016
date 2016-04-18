@@ -4,12 +4,12 @@ import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj.Relay;
 
-public class RelayButtonUpdator {
+public class RelayUpdater {
 	Relay relay;
 	BooleanSupplier forward;
 	BooleanSupplier backward;
 
-	public RelayButtonUpdator(Relay relay, BooleanSupplier forward, BooleanSupplier backward) {
+	public RelayUpdater(Relay relay, BooleanSupplier forward, BooleanSupplier backward) {
 		this.relay = relay;
 		this.forward = forward;
 		this.backward = backward;
